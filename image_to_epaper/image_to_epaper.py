@@ -191,9 +191,9 @@ UPLOAD_PAGE = '''
     <p>Please select an image and set the parameters below.</p>
     <p class="param-note">
       Rotation: auto (match orientation) or 0°, 90°, 180°, 270°<br>
-      Saturation Parameters: recommended 0.0 ~ 3.0 (default 1.5)<br>
-      Contrast Parameters: recommended 0.0 ~ 3.0 (default 1.3)<br>
-      Brightness Parameters: recommended 0.0 ~ 3.0 (default 1.0)
+      Saturation Factor: recommended 0.0 ~ 3.0 (default 1.5)<br>
+      Contrast Factor: recommended 0.0 ~ 3.0 (default 1.3)<br>
+      Brightness Factor: recommended 0.0 ~ 3.0 (default 1.0)
     </p>
     <!-- 將所有輸入與按鈕放在同一個表單中 -->
     <form method="post" enctype="multipart/form-data" action="/">
@@ -206,11 +206,11 @@ UPLOAD_PAGE = '''
         <option value="180">180°</option>
         <option value="270">270°</option>
       </select><br>
-      <label for="saturation">Saturation Parameters:</label>
+      <label for="saturation">Saturation Factor:</label>
       <input type="text" name="saturation" id="saturation" value="1.5"><br>
-      <label for="contrast">Contrast Parameters:</label>
+      <label for="contrast">Contrast Factor:</label>
       <input type="text" name="contrast" id="contrast" value="1.3"><br>
-      <label for="brightness">Brightness Parameters:</label>
+      <label for="brightness">Brightness Factor:</label>
       <input type="text" name="brightness" id="brightness" value="1.0"><br>
       <div class="button-group">
         <input type="submit" name="action" value="Upload and Display">
