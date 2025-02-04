@@ -37,13 +37,17 @@ If you encounter any problems or have suggestions regarding usage, design, or co
 ## Demo
 
 **Hardware Setup / Appearance**  
-![Demo Image1](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration1.jpg)  
-![Demo Image2](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration2.jpg)  
-![Demo Image3](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg)
+<div align="center">
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration1.jpg" width="250" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration2.jpg" width="250" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg" width="250" />
+</div>
 
 **E-Paper Display Output**  
-![Demo Image4](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo1.jpg)  
-![Demo Image5](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo2.jpg)
+<div align="center">
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo1.jpg" width="300" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo2.jpg" width="300" />
+</div>
 
 ---
 
