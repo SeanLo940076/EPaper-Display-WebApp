@@ -23,15 +23,22 @@
 
 ### Demo
 
-**成品展示 / 外觀**
-![Demo Image1](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration1.jpg)
-![Demo Image2](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration2.jpg)
-![Demo Image3](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg)
+**Hardware Setup / Appearance**  
+<div align="center">
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration1.jpg" width="300" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration2.jpg" width="300" />
+</div>
 
-**電子墨水屏效果**
-![Demo Image4](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo1.jpg)
-![Demo Image5](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo2.jpg)
+**E-Paper Display Output**  
+<div align="center">
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo1.jpg" width="300" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo2.jpg" width="300" />
+</div>
 
+**Web page configuration**
+<div align="center">
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg" width="300" />
+</div>
 ---
 
 ### 硬體配置
