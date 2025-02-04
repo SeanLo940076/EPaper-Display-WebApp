@@ -150,7 +150,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
     EPaper-Display-WebApp/
     ├─ app.py                # Main Flask program (image processing logic + web server)
     ├─ lib/                  # (Optional) place waveshare_epd driver here
-    ├─ uploads/             # Default upload directory for images
+    ├─ uploads/              # Default upload directory for images
     └─ README.md
 ---
 

@@ -2,7 +2,7 @@
 
 [English Version](README.md)
 
-此專案提供了基於 Flask 的簡易網頁應用程式，支援將使用者上傳的影像進行基本圖像處理，並推送到 Waveshare e-Paper 顯示器上顯示。此外也提供「清除圖片」按鈕，方便隨時清除電子紙畫面。
+此專案提供了基於 Flask 的簡易網頁應用程式，支援將使用者上傳的影像進行基本圖像處理，並推送到 Waveshare e-Paper 顯示器上顯示。此外也提供清除圖片按鈕，方便隨時清除電子紙畫面。
 
 如果在使用、設計或程式上遇到任何問題，或有任何改進建議，歡迎提出 [Issue](../../issues) 與我們討論！
 
@@ -137,7 +137,7 @@
     ePaper-ImageProcessor/
     ├─ app.py                # 主程式 (Flask server + image processing logic)
     ├─ lib/                  # 放置 waveshare_epd 驅動程式 (若需要)
-    ├─ uploads/             # 預設圖片上傳儲存目錄
+    ├─ uploads/              # 預設圖片上傳儲存目錄
     └─ README.md
 ---
 

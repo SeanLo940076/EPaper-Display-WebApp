@@ -15,7 +15,8 @@ from PIL import Image, ImageEnhance
 from waveshare_epd import epd4in0e
 
 # 設定上傳目錄與允許的檔案格式
-UPLOAD_FOLDER = os.path.expanduser('~/uploads')
+uploads = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'uploads')
+UPLOAD_FOLDER = os.path.expanduser(uploads)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'bmp'}
 
 app = Flask(__name__)
@@ -151,30 +152,33 @@ def process_and_display(file_path, rotation_choice, sat_factor, con_factor, brig
         epd.display(buffer)
         logging.info("影像已推送到電子紙")
         epd.sleep()
-
     except Exception as e:
         logging.error("處理或推送圖片時發生錯誤: {}".format(e))
 
 # ------------------------------
-# 網頁介面（增加「清除圖片」按鈕，兩個按鈕並排）
+# 更新後的網頁介面：按鈕並排且分開「上傳並顯示」與「清除圖片」
 # ------------------------------
 UPLOAD_PAGE = '''
 <!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>上傳圖片到電子紙</title>
+  <title>Upload Image to E-Paper</title>
   <style>
     body { font-family: Arial, sans-serif; background: #f7f7f7; text-align: center; }
     .container { width: 90%; max-width: 600px; margin: 30px auto; background: #fff;
                  padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 8px; }
     h1 { color: #333; }
-    input[type="file"], select, input[type="text"] { margin: 10px 0; padding: 8px;
-                                                     font-size: 1em; width: 80%; }
-    .button-group { display: flex; justify-content: center; gap: 20px; margin-top: 10px; }
-    .button-group form { margin: 0; }
-    input[type="submit"] { background: #007BFF; color: #fff; border: none;
-                           padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+    input[type="file"], select, input[type="text"] {
+      margin: 10px 0; padding: 8px; font-size: 1em; width: 80%;
+    }
+    .button-group {
+      display: flex; justify-content: center; gap: 20px; margin-top: 10px;
+    }
+    input[type="submit"] {
+      background: #007BFF; color: #fff; border: none; padding: 10px 20px;
+      border-radius: 4px; cursor: pointer;
+    }
     input[type="submit"]:hover { background: #0056b3; }
     .message { color: green; font-weight: bold; margin-bottom: 20px; }
     .param-note { font-size: 0.8em; color: #555; }
@@ -183,41 +187,40 @@ UPLOAD_PAGE = '''
 </head>
 <body>
   <div class="container">
-    <h1>彩色墨水屏圖片上傳</h1>
-    <p>請選擇圖片並設定以下參數，然後點擊「上傳並顯示」。</p>
+    <h1>E-Paper Image Upload</h1>
+    <p>Please select an image and set the parameters below.</p>
     <p class="param-note">
-      旋轉角度：自動 (依原圖長短邊匹配) 或 0°, 90°, 180°, 270°<br>
-      飽和度增強因子：建議範圍 0.0 ~ 3.0（預設 1.5）<br>
-      對比度增強因子：建議範圍 0.0 ~ 3.0（預設 1.3）<br>
-      亮度增強因子：建議範圍 0.0 ~ 3.0（預設 1.0）
+      Rotation: auto (match orientation) or 0°, 90°, 180°, 270°<br>
+      Saturation Factor: recommended 0.0 ~ 3.0 (default 1.5)<br>
+      Contrast Factor: recommended 0.0 ~ 3.0 (default 1.3)<br>
+      Brightness Factor: recommended 0.0 ~ 3.0 (default 1.0)
     </p>
-    <form method="post" enctype="multipart/form-data">
+    <!-- 將所有輸入與按鈕放在同一個表單中 -->
+    <form method="post" enctype="multipart/form-data" action="/">
       <input type="file" name="file" accept="image/*"><br>
-      <label for="rotation">旋轉角度：</label>
+      <label for="rotation">Rotation:</label>
       <select name="rotation" id="rotation">
-        <option value="auto">自動 (依原圖長短邊匹配)</option>
+        <option value="auto">auto (match orientation)</option>
         <option value="0">0°</option>
         <option value="90">90°</option>
         <option value="180">180°</option>
         <option value="270">270°</option>
       </select><br>
-      <label for="saturation">飽和度增強因子：</label>
+      <label for="saturation">Saturation Factor:</label>
       <input type="text" name="saturation" id="saturation" value="1.5"><br>
-      <label for="contrast">對比度增強因子：</label>
+      <label for="contrast">Contrast Factor:</label>
       <input type="text" name="contrast" id="contrast" value="1.3"><br>
-      <label for="brightness">亮度增強因子：</label>
+      <label for="brightness">Brightness Factor:</label>
       <input type="text" name="brightness" id="brightness" value="1.0"><br>
       <div class="button-group">
-        <input type="submit" value="上傳並顯示">
-        <form method="post" action="/clear" style="margin: 0;">
-          <input type="submit" value="清除圖片">
-        </form>
+        <input type="submit" name="action" value="Upload and Display">
+        <input type="submit" name="action" value="Clear Display">
       </div>
     </form>
     {% if message %}
       <div class="message">{{ message }}</div>
     {% endif %}
-    <p><a href="/">重新上傳圖片</a></p>
+    <p><a href="/">Reset</a></p>
   </div>
 </body>
 </html>
@@ -226,45 +229,66 @@ UPLOAD_PAGE = '''
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     message = None
-    if request.method == 'POST' and 'file' in request.files:
-        file = request.files['file']
-        if file.filename == '':
-            message = "未選擇檔案"
+    if request.method == 'POST':
+        action = request.form.get("action")
+        # 如果按下 "Clear Display"，則進行清除操作
+        if action == "Clear Display":
+            try:
+                epd = epd4in0e.EPD()
+                logging.info("Initializing E-Paper to clear display")
+                epd.init()
+                epd.Clear()
+                epd.sleep()
+                message = "E-Paper display cleared!"
+            except Exception as e:
+                message = "Error clearing display: " + str(e)
+                logging.error("Error clearing display: " + str(e))
             return render_template_string(UPLOAD_PAGE, message=message)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(save_path)
-            logging.info("檔案已儲存: {}".format(save_path))
-            rotation_choice = request.form.get("rotation", "auto")
-            try:
-                sat_factor = float(request.form.get("saturation", "1.5"))
-            except ValueError:
-                sat_factor = 1.5
-            try:
-                con_factor = float(request.form.get("contrast", "1.3"))
-            except ValueError:
-                con_factor = 1.3
-            try:
-                bright_factor = float(request.form.get("brightness", "1.0"))
-            except ValueError:
-                bright_factor = 1.0
-            process_and_display(save_path, rotation_choice, sat_factor, con_factor, bright_factor)
-            message = "圖片已上傳並顯示於電子紙上！"
+        # 否則，處理上傳並顯示圖片
+        else:
+            if 'file' not in request.files:
+                message = "No file selected"
+                return render_template_string(UPLOAD_PAGE, message=message)
+            file = request.files['file']
+            if file.filename == '':
+                message = "No file selected"
+                return render_template_string(UPLOAD_PAGE, message=message)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(save_path)
+                logging.info("File saved: {}".format(save_path))
+                rotation_choice = request.form.get("rotation", "auto")
+                try:
+                    sat_factor = float(request.form.get("saturation", "1.5"))
+                except ValueError:
+                    sat_factor = 1.5
+                try:
+                    con_factor = float(request.form.get("contrast", "1.3"))
+                except ValueError:
+                    con_factor = 1.3
+                try:
+                    bright_factor = float(request.form.get("brightness", "1.0"))
+                except ValueError:
+                    bright_factor = 1.0
+                process_and_display(save_path, rotation_choice, sat_factor, con_factor, bright_factor)
+                message = "Image uploaded and displayed on E-Paper!"
     return render_template_string(UPLOAD_PAGE, message=message)
 
 @app.route('/clear', methods=['POST'])
 def clear_display():
+    # 此路由現在不再被使用，因為我們整合到主表單中
+    # 但可以保留作為備用
     try:
         epd = epd4in0e.EPD()
-        logging.info("初始化電子紙以清除畫面")
+        logging.info("Initializing E-Paper to clear display")
         epd.init()
         epd.Clear()
         epd.sleep()
-        message = "電子紙顯示已清除！"
+        message = "E-Paper display cleared!"
     except Exception as e:
-        message = "清除圖片時發生錯誤：" + str(e)
-        logging.error("清除圖片錯誤: " + str(e))
+        message = "Error clearing display: " + str(e)
+        logging.error("Error clearing display: " + str(e))
     return render_template_string(UPLOAD_PAGE, message=message)
 
 if __name__ == '__main__':
