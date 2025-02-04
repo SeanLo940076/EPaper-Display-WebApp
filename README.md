@@ -2,7 +2,7 @@
 
 [中文版本](./README_zh.md)
 
-This project provides a simple web application based on Flask. It allows users to upload images, apply basic image adjustments, and display the processed images on a Waveshare e-Paper screen. A **"Clear Image"** button is also provided for conveniently clearing the e-paper display at any time.
+This project provides a simple Flask-based web application for uploading images, applying basic adjustments (saturation, contrast, brightness), and displaying the results on a Waveshare e-Paper screen. It also includes a convenient option to clear the e-paper whenever needed.
 
 If you encounter any problems or have suggestions regarding usage, design, or code improvement, feel free to open an [Issue](../../issues) to discuss with us!
 
