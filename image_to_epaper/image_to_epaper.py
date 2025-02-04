@@ -206,11 +206,11 @@ UPLOAD_PAGE = '''
         <option value="180">180°</option>
         <option value="270">270°</option>
       </select><br>
-      <label for="saturation">Saturation Factor:</label>
+      <label for="saturation">Saturation Parameters:</label>
       <input type="text" name="saturation" id="saturation" value="1.5"><br>
-      <label for="contrast">Contrast Factor:</label>
+      <label for="contrast">Contrast Parameters:</label>
       <input type="text" name="contrast" id="contrast" value="1.3"><br>
-      <label for="brightness">Brightness Factor:</label>
+      <label for="brightness">Brightness Parameters:</label>
       <input type="text" name="brightness" id="brightness" value="1.0"><br>
       <div class="button-group">
         <input type="submit" name="action" value="Upload and Display">
