@@ -126,7 +126,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    sudo nano /etc/rc.local
    ```
    在Insert the line before ```exit``` 0:
-   > 注意：請更換使用者名稱
+   > Note: Please change your username
    ```bash
    #!/bin/sh -e
    # rc.local
