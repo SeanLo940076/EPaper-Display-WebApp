@@ -1,0 +1,151 @@
+# EPaper-Display-WebApp
+
+[English Version](README.md)
+
+此專案提供了基於 Flask 的簡易網頁應用程式，支援將使用者上傳的影像進行基本圖像處理，並推送到 Waveshare e-Paper 顯示器上顯示。此外也提供「清除圖片」按鈕，方便隨時清除電子紙畫面。
+
+如果在使用、設計或程式上遇到任何問題，或有任何改進建議，歡迎提出 [Issue](../../issues) 與我們討論！
+
+---
+
+### 簡要特色
+
+- **上傳圖片**：可透過網頁上傳 `.png`, `.jpg`, `.jpeg`, `.bmp` 檔案。
+- **自動長短邊匹配**：若原圖為縱向而目標顯示為橫向(600×400)，系統自動旋轉 90°。
+- **參數調整**：
+  - 飽和度增強因子 (建議 0.0～3.0，預設 1.5)
+  - 對比度增強因子 (建議 0.0～3.0，預設 1.3)
+  - 亮度增強因子 (建議 0.0～3.0，預設 1.0)
+- **旋轉角度**：可選擇 `auto, 0, 90, 180, 270`，若為 `auto`，則只在原圖縱向時自動旋轉；若為其它值則順時針旋轉對應角度。
+- **Floyd–Steinberg 誤差擴散**：將最終影像轉換為僅含六種墨水顏色（黑、白、黃、紅、藍、綠）。
+- **清除圖片**：按下「清除圖片」按鈕後，會初始化電子紙並清空畫面。
+---
+
+### Demo
+
+**成品展示 / 外觀**
+![Demo Image1](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration1.jpg)
+![Demo Image2](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration2.jpg)
+![Demo Image3](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg)
+
+**電子墨水屏效果**
+![Demo Image4](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo1.jpg)
+![Demo Image5](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo2.jpg)
+
+---
+
+### 硬體配置
+1. **硬體**：
+   - [Raspberry Pi Zero 2](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/)
+   - [Waveshare 1.3inch UPS HAT](https://www.waveshare.com/wiki/UPS_HAT_(C))
+   - [Waveshare 4inch E-Paper HAT+ (E) Manual](https://www.waveshare.net/wiki/4inch_e-Paper_HAT+_(E)_Manual#Raspberry_Pi)
+   - microSD
+
+2. **作業系統**：
+   - 建議 **Raspberry Pi Lite OS**
+
+---
+
+### 組裝步驟
+
+1. **將 E-Paper 疊加 Raspberry Pi Zero 2**
+   - 先將 **Waveshare E-Paper** 與 **Pi Zero 2** 疊合，確保 40-pin 接腳對應正確，並鎖上 M2.5 銅柱。
+2. **疊加 UPS HAT**  
+   - 將 **Waveshare 1.3inch UPS HAT** 與 **Pi Zero 2** 疊合，確保供電接角對應正確，並在四角鎖上 M2.5 螺絲。
+3. **電源測試**  
+   - 接上電池到 **UPS HAT** 充電。  
+   - 確認 **Pi Zero 2** 能正常啟動並且螢幕有顯示畫面。
+
+---
+
+### 安裝 / 使用範例
+
+以下以 **Raspberry Pi Lite OS** 為例，示範基礎安裝與拍攝操作：
+
+> PiP 安裝過程中會遇到 × This environment is externally managed，解決方法是改成以下方法
+   ```bash
+   sudo apt install python3-requests
+   ```
+
+1. **更新系統並啟用功能**
+   ```bash
+   sudo apt update
+   sudo apt upgrade -y
+   sudo raspi-config
+   ```
+   - 在 `Interface Options` 中啟用 **SPI**
+
+2. **安裝依賴項 Waveshare 4inch E-Paper**
+    ```bash
+    sudo apt-get update
+    sudo apt-get install python3-pip
+    sudo apt-get install python3-pil
+    sudo apt-get install python3-numpy
+    sudo apt-get install python3-spidev
+    sudo apt-get install python3-flask
+    ```
+
+3. **Git 拉取檔案**
+    ```bash
+    git clone https://github.com/SeanLo940076/E-Paper.git
+    ```
+4. **執行軟體**
+    ```bash
+    cd E-Paper/image_to_epaper/
+    python3 image_to_epaper.py
+    ```
+
+5. **設置開機自啟動**
+   編輯 rc.local 文件
+   ```bash
+   sudo nano /etc/rc.local
+   ```
+
+   在 exit 0 之前添加這一行，結果如下
+   > 注意：請更換使用者名稱
+   ```bash
+   #!/bin/sh -e
+   # rc.local
+
+   /usr/bin/python3 /home/User/E-Paper/image_to_epaper/image_to_epaper.py &
+   exit 0
+   ```
+
+   重新啟動 rc.local 服務
+   ```bash
+   sudo systemctl restart rc-local
+   ```
+
+   檢查服務狀態
+   ```bash
+   sudo systemctl status rc-local
+   ```
+
+6. 在同網域下的其他設備開啟 http://192.168.0.x:5000
+   > 注意：x 為 Pi zero 2 的 IP 地址
+
+---
+
+### 專案結構
+    ePaper-ImageProcessor/
+    ├─ app.py                # 主程式 (Flask server + image processing logic)
+    ├─ lib/                  # 放置 waveshare_epd 驅動程式 (若需要)
+    ├─ uploads/             # 預設圖片上傳儲存目錄
+    └─ README.md
+---
+
+### 常見問題
+1. 無法上傳圖片？
+   請確認檔案副檔名必須為 png/jpg/jpeg/bmp。
+   請確認 uploads/ 目錄存在且有寫入權限。
+
+2. 調整參數後顯示結果不如預期？
+   依實際觀看效果微調飽和度、對比度與亮度因子。
+   Floyd–Steinberg 誤差擴散會讓影像呈現抖色顆粒狀，屬正常現象。
+
+---
+
+### License
+
+本專案採用 MIT License 授權。詳細內容請參考 [LICENSE](LICENSE) 檔案。
+感謝你的閱讀，祝你使用愉快，期待你的回饋與貢獻！

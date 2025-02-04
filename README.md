@@ -1,4 +1,164 @@
-# E-paper
+# EPaper-Display-WebApp
 
-[中文版本](README_zh.md)
+[中文版本](./README_zh.md)
+
+This project provides a simple web application based on Flask. It allows users to upload images, apply basic image adjustments, and display the processed images on a Waveshare e-Paper screen. A **"Clear Image"** button is also provided for conveniently clearing the e-paper display at any time.
+
+If you encounter any problems or have suggestions regarding usage, design, or code improvement, feel free to open an [Issue](../../issues) to discuss with us!
+
+---
+
+## Features
+
+- **Image Upload**  
+  Upload `.png`, `.jpg`, `.jpeg`, or `.bmp` files via the web interface.
+
+- **Auto Landscape Matching**  
+  If the original image is in portrait orientation while the target display is 600×400 (landscape), the system automatically rotates it by 90°.
+
+- **Parameter Adjustments**  
+  - **Saturation Factor** (recommended range: `0.0~3.0`, default `1.5`)
+  - **Contrast Factor** (recommended range: `0.0~3.0`, default `1.3`)
+  - **Brightness Factor** (recommended range: `0.0~3.0`, default `1.0`)
+
+- **Rotation Angles**  
+  Choose from `auto, 0, 90, 180, 270`.  
+  - `auto`: only automatically rotate if the source is portrait and the target is 600×400 (landscape).  
+  - Any other numeric value rotates the image clockwise by the specified degrees.
+
+- **Floyd–Steinberg Dithering**  
+  Converts the final image into only six ink colors: black, white, yellow, red, blue, and green.
+
+- **Clear Image**  
+  Pressing the **"Clear Image"** button initializes the e-paper and clears the display content.
+
+---
+
+## Demo
+
+**Hardware Setup / Appearance**  
+![Demo Image1](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration1.jpg)  
+![Demo Image2](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration2.jpg)  
+![Demo Image3](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg)
+
+**E-Paper Display Output**  
+![Demo Image4](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo1.jpg)  
+![Demo Image5](https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo2.jpg)
+
+---
+
+## Hardware Setup
+
+1. **Hardware**  
+   - [Raspberry Pi Zero 2](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/)  
+   - [Waveshare 1.3inch UPS HAT](https://www.waveshare.com/wiki/UPS_HAT_(C))  
+   - [Waveshare 4inch E-Paper HAT+ (E) Manual](https://www.waveshare.net/wiki/4inch_e-Paper_HAT+_(E)_Manual#Raspberry_Pi)  
+   - microSD Card
+
+2. **Operating System**  
+   - Recommended: **Raspberry Pi Lite OS**
+
+---
+
+## Assembly Steps
+
+1. **Stack the E-Paper on the Raspberry Pi Zero 2**  
+   - Attach the Waveshare E-Paper module to the Pi Zero 2, ensuring the 40-pin connector is aligned properly. Lock it with M2.5 screws if needed.  
+2. **Attach the UPS HAT**  
+   - Stack the Waveshare 1.3inch UPS HAT onto the Pi Zero 2 with correct power pins alignment, secure with M2.5 screws on each corner.  
+3. **Power Test**  
+   - Connect a battery to the UPS HAT for charging.  
+   - Verify the Pi Zero 2 boots successfully and the screen receives power.
+
+---
+
+## Installation / Usage
+
+Below is an example using **Raspberry Pi Lite OS**, showing basic installation steps:
+
+> If the environment shows `× This environment is externally managed` when installing via pip, switch to system-level installation such as:
+> ```bash
+> sudo apt install python3-requests
+> ```
+
+1. **Update System & Enable SPI**  
+   ```bash
+   sudo apt update
+   sudo apt upgrade -y
+   sudo raspi-config
+   ```
+   - In Interface Options, enable SPI.
+
+2. **Install Dependencies**
+   ```bash
+   sudo apt-get update
+   sudo apt-get install python3-pip
+   sudo apt-get install python3-pil
+   sudo apt-get install python3-numpy
+   sudo apt-get install python3-spidev
+   sudo apt-get install python3-flask
+   ```
+   - Ensure you have also set up the Waveshare 4inch E-Paper driver or placed it into a lib/ directory for Python to find.
+
+3. **Clone This Repository**
+   ```bash
+   sit clone https://github.com/SeanLo940076/E-Paper.git
+   ```
+
+4. **Run the Application**
+   ```bash
+   cd E-Paper/image_to_epaper/
+   python3 image_to_epaper.py
+   ```
+
+5. **Enable Startup on Boot (Optional)**
+   Edit /etc/rc.local to automatically run the script at startup:
+
+   ```bash
+   sudo nano /etc/rc.local
+   ```
+   在Insert the line before ```exit``` 0:
+   > 注意：請更換使用者名稱
+   ```bash
+   #!/bin/sh -e
+   # rc.local
+
+   /usr/bin/python3 /home/User/E-Paper/image_to_epaper/image_to_epaper.py &
+   exit 0
+   ```
+
+   Then restart the rc.local service:
+   ```bash
+   sudo systemctl restart rc-local
+   sudo systemctl status rc-local
+   ```
+
+6. Access the Web Interface 
+   Use a device on the same network and point the browser to http://192.168.0.x:5000 (where x is your Pi Zero 2 IP address).
+
+---
+
+### Project Structure
+    EPaper-Display-WebApp/
+    ├─ app.py                # Main Flask program (image processing logic + web server)
+    ├─ lib/                  # (Optional) place waveshare_epd driver here
+    ├─ uploads/             # Default upload directory for images
+    └─ README.md
+---
+
+### FAQ
+1. Cannot upload images?
+   - Make sure the file extension is one of png/jpg/jpeg/bmp.
+   - Check if uploads/ folder exists and has correct write permissions.
+
+2. Parameters adjusted but results look unexpected?
+   - You can fine-tune saturation, contrast, and brightness to find the best visual result.
+   - Floyd–Steinberg dithering may produce noticeable grainy patterns, which is normal.
+
+---
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+We appreciate your feedback and contributions！
 
