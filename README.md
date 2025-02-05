@@ -85,9 +85,9 @@ If you encounter any problems or have suggestions regarding usage, design, or co
 Below is an example using **Raspberry Pi Lite OS**, showing basic installation steps:
 
 > If the environment shows `× This environment is externally managed` when installing via pip, switch to system-level installation such as:
-> ```bash
-> sudo apt install python3-requests
-> ```
+   ```bash
+   sudo apt install python3-requests
+   ```
 
 1. **Update System & Enable SPI**  
    ```bash

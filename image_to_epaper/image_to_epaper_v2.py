@@ -31,58 +31,75 @@ def allowed_file(filename):
 # ------------------------------
 # Floyd–Steinberg 誤差擴散（固定預設係數）
 # ------------------------------
-def floyd_steinberg_dither(image):
+@njit
+def find_nearest_color(pixel, palette):
     """
-    將 image 轉換為僅含下列六種墨水顏色：來自 waveshare 提供的顏色
-      - 黑   : (0, 0, 0)
-      - 白   : (255, 255, 255)
-      - 黃   : (255, 243, 56)
-      - 紅   : (191, 0, 0)
-      - 藍   : (100, 64, 255)
-      - 綠   : (67, 138, 28)
-      
-    誤差分配係數固定為：
-      - 右側 : 0.4375 (7/16)
-      - 下方 : 0.3125 (5/16)
-      - 左下 : 0.1875 (3/16)
-      - 右下 : 0.0625 (1/16)
+    在 Numba 下實作尋找與 pixel 最近的調色盤顏色。
+    因為不能使用 numpy 的向量化運算，這裡改用原始的迴圈。
     """
+    min_dist = 1e9  # 設一個很大的初始值
+    nearest_index = 0
+    for i in range(palette.shape[0]):
+        # 計算平方距離
+        diff0 = palette[i, 0] - pixel[0]
+        diff1 = palette[i, 1] - pixel[1]
+        diff2 = palette[i, 2] - pixel[2]
+        dist = diff0 * diff0 + diff1 * diff1 + diff2 * diff2
+        if dist < min_dist:
+            min_dist = dist
+            nearest_index = i
+    return nearest_index
 
-    if image.mode != "RGB":
-        image = image.convert("RGB")
-    arr = np.array(image, dtype=np.float32)
-    height, width, _ = arr.shape
-
-    # 定義六色調色盤
-    palette = np.array([
-        [0, 0, 0],           # 黑
-        [255, 255, 255],     # 白
-        [255, 243, 56],      # 黃
-        [191, 0, 0],         # 紅
-        [100, 64, 255],      # 藍
-        [67, 138, 28]        # 綠
-    ], dtype=np.float32)
-
-    def find_nearest_color(pixel):
-        distances = np.sum((palette - pixel) ** 2, axis=1)
-        index = np.argmin(distances)
-        return palette[index]
-
+@njit
+def floyd_steinberg_dither_core(arr, palette):
+    """
+    Numba 加速的誤差擴散核心運算。
+    arr: 圖片的 float32 numpy 陣列，shape 為 (height, width, 3)
+    palette: 預設調色盤
+    """
+    height = arr.shape[0]
+    width = arr.shape[1]
+    
     for y in range(height):
         for x in range(width):
+            # 複製原始像素數值
             old_pixel = arr[y, x].copy()
-            new_pixel = find_nearest_color(old_pixel)
+            # 找出最近似的顏色在調色盤中的索引
+            nearest_index = find_nearest_color(old_pixel, palette)
+            new_pixel = palette[nearest_index]
             arr[y, x] = new_pixel
             error = old_pixel - new_pixel
+            
+            # 將誤差分散到鄰近像素，依據 Floyd–Steinberg 的係數
             if x + 1 < width:
-                arr[y, x+1] += error * 0.4375
+                arr[y, x + 1] += error * 0.4375  # 7/16
             if y + 1 < height:
-                arr[y+1, x] += error * 0.3125
+                arr[y + 1, x] += error * 0.3125  # 5/16
                 if x > 0:
-                    arr[y+1, x-1] += error * 0.1875
+                    arr[y + 1, x - 1] += error * 0.1875  # 3/16
                 if x + 1 < width:
-                    arr[y+1, x+1] += error * 0.0625
+                    arr[y + 1, x + 1] += error * 0.0625  # 1/16
+    return arr
+
+def floyd_steinberg_dither(image):
+    """
+    將圖片轉換為僅含固定六種顏色，
+    並使用 Numba 加速的核心演算法處理。
+    """
+    # 確保圖片為 RGB 模式
+    if image.mode != "RGB":
+        image = image.convert("RGB")
+    
+    # 將圖片轉換為 numpy 陣列，使用 float32 以便數值運算
+    arr = np.array(image, dtype=np.float32)
+    
+    # 呼叫 Numba 加速的誤差擴散核心函式
+    arr = floyd_steinberg_dither_core(arr, palette)
+    
+    # 限制像素值範圍，並轉換回 uint8 格式
     arr = np.clip(arr, 0, 255).astype(np.uint8)
+    
+    # 轉換回 PIL Image 物件
     return Image.fromarray(arr)
 
 def convert_image_to_6color(image):
