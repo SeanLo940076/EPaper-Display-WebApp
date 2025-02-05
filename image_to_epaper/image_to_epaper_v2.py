@@ -14,6 +14,7 @@ from werkzeug.utils import secure_filename
 from PIL import Image, ImageEnhance
 from waveshare_epd import epd4in0e
 import numpy as np
+from numba import njit
 
 # 設定上傳目錄與允許的檔案格式
 uploads = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'uploads')
@@ -31,6 +32,7 @@ def allowed_file(filename):
 # ------------------------------
 # Floyd–Steinberg 誤差擴散（固定預設係數）
 # ------------------------------
+
 @njit
 def find_nearest_color(pixel, palette):
     """
