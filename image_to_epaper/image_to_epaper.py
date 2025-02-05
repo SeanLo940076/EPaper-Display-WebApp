@@ -143,11 +143,14 @@ def process_and_display(file_path, rotation_choice, sat_factor, con_factor, brig
     處理圖片後，初始化電子紙並將結果推送顯示。
     """
     try:
-        processed_image = process_image(file_path, rotation_choice, sat_factor, con_factor, bright_factor)
         epd = epd4in0e.EPD()
         logging.info("初始化電子紙並清除畫面")
         epd.init()
         epd.Clear()
+        processed_image = process_image(file_path, rotation_choice, sat_factor, con_factor, bright_factor)
+        # logging.info("初始化電子紙並清除畫面")
+        # epd.init()
+        # epd.Clear()
         buffer = epd.getbuffer(processed_image)
         epd.display(buffer)
         logging.info("影像已推送到電子紙")
