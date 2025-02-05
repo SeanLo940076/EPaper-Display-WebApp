@@ -330,27 +330,24 @@ def upload_file():
                 message = "The image is uploading and displaying on the E-Paper!"
     return render_template_string(UPLOAD_PAGE, message=message)
 
-@app.route('/cat', methods=['POST'])
+@app.route('/easter_egg', methods=['GET'])
 def cat():
-    # 此路由現在不再被使用，因為我們整合到主表單中
-    # 但可以保留作為彩蛋
     try:
         logging.info("This is my cat")
         epd = epd4in0e.EPD()
         epd.init()
         epd.Clear()
         cat_path = os.path.join(uploads, "cat.jpg")
-        rotation_choice = request.form.get("rotation", "auto")
-        sat_factor = float(request.form.get("saturation", "1.5"))
-        con_factor = float(request.form.get("contrast", "1.3"))
-        bright_factor = float(request.form.get("brightness", "1.0"))
+        rotation_choice = "auto"  # 你可以硬編碼參數，或是從參數中獲取
+        sat_factor = 1.5
+        con_factor = 1.3
+        bright_factor = 1.0
         processed_image = process_image(cat_path, rotation_choice, sat_factor, con_factor, bright_factor)
         buffer = epd.getbuffer(processed_image)
         epd.display(buffer)
         epd.sleep()
     except Exception as e:
         logging.error("Error clearing display: " + str(e))
-    return render_template_string(UPLOAD_PAGE, message=message)
 
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
