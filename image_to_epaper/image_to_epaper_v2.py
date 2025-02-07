@@ -242,7 +242,7 @@ UPLOAD_PAGE = '''
 </head>
 <body>
   <div class="container">
-    <h1>e-Paper Image Upload</h1>
+    <h1>E-Paper Image Upload</h1>
     <p>Please select an image and set the parameters below.</p>
     <p>It will take about 1 minute to refresh the photos.</p>
     <p class="param-note">

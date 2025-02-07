@@ -242,7 +242,7 @@ UPLOAD_PAGE = '''
 </head>
 <body>
   <div class="container">
-    <h1>e-Paper Image Upload</h1>
+    <h1>E-Paper Image Upload</h1>
     <p>選擇一張照片並且設定圖片參數</p>
     <p>圖片的處理需要等待一分鐘，請點擊一次按鈕就好</p>
     <p class="param-note">
