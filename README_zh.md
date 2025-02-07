@@ -114,7 +114,7 @@
    #!/bin/sh -e
    # rc.local
 
-   /usr/bin/python3 /home/User/E-Paper/image_to_epaper/image_to_epaper.py &
+   /usr/bin/python3 /home/User/E-Paper/image_to_epaper/image_to_epaper_v2_zh.py &
    exit 0
    ```
 
