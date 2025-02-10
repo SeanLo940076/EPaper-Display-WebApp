@@ -352,6 +352,10 @@ def cat():
         logging.error("Error in easter_egg: " + str(e))
 
 if __name__ == '__main__':
+    # from PIL import Image
+    dummy_image = Image.fromarray(np.zeros((10, 10, 3), dtype=np.uint8))
+    floyd_steinberg_dither(dummy_image)
+
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     # 注意：由於使用了 @numba.njit(cache=True)，重啟後快取通常會保留，
     # 所以不一定需要提前進行 warm-up 呼叫。
