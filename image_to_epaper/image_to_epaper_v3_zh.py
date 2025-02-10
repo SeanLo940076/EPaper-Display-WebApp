@@ -35,7 +35,7 @@ def allowed_file(filename):
 epd_lock = Lock()
 
 # 將純數值運算部分抽離到一個 numba nopython 函數中
-@numba.njit(cache=True)
+@numba.jit(cache=True)
 def dither_loop(arr, palette):
     height, width, channels = arr.shape
     for y in range(height):
