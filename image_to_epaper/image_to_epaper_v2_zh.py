@@ -327,7 +327,7 @@ def upload_file():
                 except ValueError:
                     bright_factor = 1.0
                 process_and_display(save_path, rotation_choice, sat_factor, con_factor, bright_factor)
-                message = "The image is uploading and displaying on the E-Paper!"
+                message = "正在上傳圖片與顯示中..."
     return render_template_string(UPLOAD_PAGE, message=message)
 
 @app.route('/easter_egg', methods=['GET'])
