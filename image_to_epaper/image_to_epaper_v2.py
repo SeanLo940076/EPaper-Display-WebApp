@@ -161,7 +161,7 @@ def clear_display_thread():
     try:
         # with epd_lock:
         epd = epd4in0e.EPD()
-        logging.info("Thread: Initializing and clearing e-Paper")
+        logging.info("Thread: Initializing and clearing E-Paper")
         epd.init()
         epd.Clear()
         # 清除後先進入睡眠，讓畫面保持清空狀態
@@ -176,14 +176,14 @@ def update_display_thread(file_path, rotation_choice, sat_factor, con_factor, br
     """
     try:
         # with epd_lock:
-        logging.info("Thread: Initializing e-Paper for update")
+        logging.info("Thread: Initializing E-Paper for update")
         # epd.init()
         # 執行圖片處理 (包含自動旋轉、尺寸調整、色彩增強與抖色)
         processed_image = process_image(file_path, rotation_choice, sat_factor, con_factor, bright_factor)
         epd = epd4in0e.EPD()
         buffer = epd.getbuffer(processed_image)
         epd.display(buffer)
-        logging.info("Thread: Image updated on e-Paper")
+        logging.info("Thread: Image updated on E-Paper")
         epd.sleep()
     except Exception as e:
         logging.error("Error in update_display_thread: " + str(e))
@@ -218,7 +218,7 @@ UPLOAD_PAGE = '''
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Upload Image to e-Paper</title>
+  <title>Upload Image to E-Paper</title>
   <style>
     body { font-family: Arial, sans-serif; background: #f7f7f7; text-align: center; }
     .container { width: 90%; max-width: 600px; margin: 30px auto; background: #fff;
