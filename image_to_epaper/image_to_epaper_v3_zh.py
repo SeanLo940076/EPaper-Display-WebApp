@@ -4,6 +4,13 @@
 import sys
 import os
 import logging
+
+# 設定路徑與上傳目錄
+picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
+libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+if os.path.exists(libdir):
+    sys.path.append(libdir)
+
 from flask import Flask, request, render_template_string
 from werkzeug.utils import secure_filename
 from PIL import Image, ImageEnhance
@@ -11,12 +18,6 @@ from waveshare_epd import epd4in0e
 import numpy as np
 from threading import Thread, Lock
 import numba
-
-# 設定路徑與上傳目錄
-picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
-libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
-if os.path.exists(libdir):
-    sys.path.append(libdir)
 
 uploads = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'uploads')
 UPLOAD_FOLDER = os.path.expanduser(uploads)
