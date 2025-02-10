@@ -178,9 +178,6 @@ def clear_display_thread():
         logging.error("Error in clear_display_thread: " + str(e))
 
 def update_display_thread(file_path, rotation_choice, sat_factor, con_factor, bright_factor):
-    """
-    線程函式：進行圖片處理並推送新畫面到電子紙。
-    """
     try:
         with epd_lock:
             logging.info("Thread: Initializing E-Paper for update")
@@ -189,12 +186,14 @@ def update_display_thread(file_path, rotation_choice, sat_factor, con_factor, br
                 logging.error("Processed image is None. Aborting update.")
                 return
             epd = epd4in0e.EPD()
+            epd.init()  # 新增初始化呼叫
             buffer = epd.getbuffer(processed_image)
             epd.display(buffer)
             logging.info("Thread: Image updated on E-Paper")
             epd.sleep()
     except Exception as e:
         logging.error("Error in update_display_thread: " + str(e))
+
 
 def process_and_display(file_path, rotation_choice, sat_factor, con_factor, bright_factor):
     """
@@ -353,8 +352,8 @@ def cat():
 
 if __name__ == '__main__':
     # from PIL import Image
-    dummy_image = Image.fromarray(np.zeros((10, 10, 3), dtype=np.uint8))
-    floyd_steinberg_dither(dummy_image)
+    # dummy_image = Image.fromarray(np.zeros((10, 10, 3), dtype=np.uint8))
+    # floyd_steinberg_dither(dummy_image)
 
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     # 注意：由於使用了 @numba.njit(cache=True)，重啟後快取通常會保留，
