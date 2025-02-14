@@ -279,22 +279,6 @@ def upload_file():
                 message = "Image uploaded and displayed on E-Paper!"
     return render_template_string(UPLOAD_PAGE, message=message)
 
-@app.route('/clear', methods=['POST'])
-def clear_display():
-    # 此路由現在不再被使用，因為我們整合到主表單中
-    # 但可以保留作為備用
-    try:
-        epd = epd4in0e.EPD()
-        logging.info("Initializing E-Paper to clear display")
-        epd.init()
-        epd.Clear()
-        epd.sleep()
-        message = "E-Paper display cleared!"
-    except Exception as e:
-        message = "Error clearing display: " + str(e)
-        logging.error("Error clearing display: " + str(e))
-    return render_template_string(UPLOAD_PAGE, message=message)
-
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     app.run(host='0.0.0.0', port=5000)
