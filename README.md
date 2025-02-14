@@ -163,7 +163,12 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    - You can fine-tune saturation, contrast, and brightness to find the best visual result.
    - Floyd–Steinberg dithering may produce noticeable grainy patterns, which is normal.
 
+3. Note: Currently, v1 is compatible with any hardware, while v2 is only compatible with the Pi Zero 2.
 ---
+
+### Future Improvements
+
+Due to performance concerns, this project will be rewritten in C/C++. Stay tuned!
 
 ### License
 
