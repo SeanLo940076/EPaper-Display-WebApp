@@ -15,8 +15,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2 -g -ffunction-sections -fdata-
 add_definitions(-DRPI -DUSE_LGPIO_LIB -DDEBUG)
 
 # 尋找依賴項
-find_package(OpenMP REQUIRED)
-find_package(Boost REQUIRED) 
+# find_package(OpenMP REQUIRED)
+# find_package(Boost REQUIRED) 
 find_package(OpenCV REQUIRED)
 
 # 收集 lib 中的 C 檔案 (Config, e-Paper, Fonts, GUI)
@@ -59,7 +59,7 @@ target_include_directories(ePaper_web PUBLIC
 )
 target_link_libraries(ePaper_web
     PRIVATE
-        OpenMP::OpenMP_CXX
+        # OpenMP::OpenMP_CXX
         epdlib
         mongoose
         pthread

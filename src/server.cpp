@@ -6,6 +6,31 @@
 #include <iostream>
 #include <cstdlib>
 #include "mongoose.h"
+#include <unistd.h>
+#include <limits.h>
+#include <libgen.h>
+#include <filesystem>
+
+std::string getExecutablePath() {
+  char path[PATH_MAX];
+  ssize_t count = readlink("/proc/self/exe", path, PATH_MAX);
+  if (count != -1) {
+      return std::string(dirname(path)); // 取得執行檔所在目錄
+  }
+  return ".";
+}
+
+std::string getUploadDir() {
+  std::filesystem::path execPath = getExecutablePath();
+  std::filesystem::path uploadPath = execPath.parent_path() / "uploads/";
+
+  if (!std::filesystem::exists(uploadPath)) {
+      std::filesystem::create_directories(uploadPath);
+  }
+
+  return uploadPath.string();
+}
+
 
 static const char *s_listening_address = "http://0.0.0.0:8080";
 
@@ -122,7 +147,9 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
           }
       } else if (fieldName == "file") {
           if (part.filename.len > 0 && part.body.len > 0) {
-              uploadedFile = "../uploads/" + std::string(part.filename.buf, part.filename.len);
+              // uploadedFile = "../uploads/" + std::string(part.filename.buf, part.filename.len);
+              std::string uploadDir = getUploadDir();
+              uploadedFile = uploadDir + std::string(part.filename.buf, part.filename.len);
               std::ofstream ofs(uploadedFile, std::ios::binary);
               if (ofs.is_open()){
                   ofs.write(part.body.buf, part.body.len);
@@ -144,10 +171,11 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
   } else if (action == "上傳並顯示") {
       if (!uploadedFile.empty()) {
           // 修改 process_and_display 函數，新增 useAHE 參數
+          std::cout << "[INFO] Open " << uploadedFile << "\n";
           bool ok = process_and_display(uploadedFile, rotation, sat, con, bri, useAHE);
           msg = ok ? "圖片已上傳並顯示到 e-paper!" : "圖片處理失敗!";
       } else {
-          msg = "No file selected or zero length!";
+          msg = "未找到圖片或圖片名稱太長";
       }
   } else {
       msg = "未知動作或未選擇檔案!";

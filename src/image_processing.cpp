@@ -7,7 +7,6 @@
 #include <cmath>
 #include "epaper.h"
 #include <chrono>
-#include <omp.h>
 #include <cstdlib>  // for rand()
 
 // 引入 e-Paper 更新相關的函式
