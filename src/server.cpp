@@ -153,9 +153,9 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
               if (ofs.is_open()){
                   ofs.write(part.body.buf, part.body.len);
                   ofs.close();
-                  std::cout << "[INFO] File saved to " << uploadedFile << "\n";
+                  std::cout << "[INFO] File saved to " << uploadedFile << std::endl;
               } else {
-                  std::cerr << "[ERROR] cannot open " << uploadedFile << "\n";
+                  std::cerr << "[ERROR] cannot open " << uploadedFile << std::endl;
                   uploadedFile.clear();
               }
           }
@@ -166,11 +166,11 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
   if (action == "清除電子紙畫面") {
       clear_epaper();
       msg = "E-Paper display cleared!";
-      std::cout << "[INFO] Clear e-paper\n";
+      std::cout << "[INFO] Clear e-paper" << std::endl;
   } else if (action == "上傳並顯示") {
       if (!uploadedFile.empty()) {
           // 修改 process_and_display 函數，新增 useAHE 參數
-          std::cout << "[INFO] Open " << uploadedFile << "\n";
+          std::cout << "[INFO] Open " << uploadedFile << std::endl;
           bool ok = process_and_display(uploadedFile, rotation, sat, con, bri, useAHE);
           msg = ok ? "圖片已上傳並顯示到 e-paper!" : "圖片處理失敗!";
       } else {
@@ -209,10 +209,10 @@ void start_web_server() {
 
     struct mg_connection *conn = mg_http_listen(&mgr, s_listening_address, fn, nullptr);
     if (!conn) {
-        std::cerr << "Cannot listen on " << s_listening_address << "\n";
+        std::cerr << "Cannot listen on " << s_listening_address << std::endl;
         return;
     }
-    std::cout << "[INFO] Starting server at " << s_listening_address << "\n";
+    std::cout << "[INFO] Starting server at " << s_listening_address << std::endl;
     for (;;) {
         mg_mgr_poll(&mgr, 1000);
     }

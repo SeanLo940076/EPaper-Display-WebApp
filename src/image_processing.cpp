@@ -299,7 +299,7 @@ bool process_and_display(const std::string &path,
 
     std::cout << "[INFO] process_and_display: path=" << path
               << ", rotation=" << rotationStr
-              << ", useAHE =" << useAHE << ", sat=" << sat << ", con=" << con << ", bri=" << bri << "\n";
+              << ", useAHE =" << useAHE << ", sat=" << sat << ", con=" << con << ", bri=" << bri << std::endl;
 
     // (1) 讀取圖片
     cv::Mat inputBGR = cv::imread(path, cv::IMREAD_COLOR);
@@ -315,7 +315,7 @@ bool process_and_display(const std::string &path,
         int w = inputBGR.cols, h = inputBGR.rows;
         if (w < h) {
             cv::rotate(inputBGR, inputBGR, cv::ROTATE_90_CLOCKWISE);
-            std::cout << "[INFO] auto-rot => 90 CW\n";
+            std::cout << "[INFO] auto-rot => 90 degree" << std::endl;
         }
     } else {
         int angle = std::atoi(rotationStr.c_str());
@@ -394,7 +394,7 @@ bool process_and_display(const std::string &path,
     // 記錄結束時間並輸出花費時間
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
-    std::cout << "[TIME] Processing took " << duration_ms << " ms\n";
+    std::cout << "[TIME] Processing took " << duration_ms << " ms" << std::endl;
 
     // (9) 更新 e-Paper 畫面後進入休眠
     display_epaper(imgBuf);
