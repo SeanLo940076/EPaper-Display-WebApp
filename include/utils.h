@@ -6,25 +6,36 @@
 #include <cmath>
 
 // 6 色調色盤 (RGB 格式)
+
+// 理論上的顏色
 // static const cv::Vec3f g_paletteRGB[6] = {
 //   cv::Vec3f(  0.f,   0.f,   0.f),    // black
 //   cv::Vec3f(255.f, 255.f, 255.f),    // white
-//   cv::Vec3f(255.f, 243.f,  0.f),    // yellow
+//   cv::Vec3f(255.f, 255.f,  0.f),    // yellow
 //   cv::Vec3f(255.f,   0.f,   0.f),    // red
 //   cv::Vec3f(  0.f,   0.f, 255.f),    // blue
 //   cv::Vec3f(  0.f, 255.f,   0.f)      // green
 // };
 
-// 6 色調色盤 (RGB 格式)，效果會比較貼近真實色彩
+// // 官方提供的色彩
+// static const cv::Vec3f g_paletteRGB[6] = {
+//   cv::Vec3f(  0.f,   0.f,   0.f),    // black
+//   cv::Vec3f(255.f, 255.f, 255.f),    // white
+//   cv::Vec3f(255.f, 243.f,  56.f),    // yellow
+//   cv::Vec3f(191.f,   0.f,   0.f),    // red
+//   cv::Vec3f(100.f,  64.f, 255.f),    // blue
+//   cv::Vec3f( 67.f, 138.f,  28.f)      // green
+// };
+
+// 自己調的
 static const cv::Vec3f g_paletteRGB[6] = {
-  cv::Vec3f(  0.f,   0.f,   0.f),    // black
-  cv::Vec3f(255.f, 255.f, 255.f),    // white
-  // cv::Vec3f(255.f, 243.f,  56.f),    // yellow
-  cv::Vec3f(255.f, 231.f,  36.f),    // yellow
-  cv::Vec3f(191.f,   0.f,   0.f),    // red
-  // cv::Vec3f(100.f,  64.f, 255.f),    // blue
-  cv::Vec3f( 48.f,  70.f, 255.f),    // blue
-  cv::Vec3f( 67.f, 138.f,  28.f)      // green
+  cv::Vec3f( 11.f,  11.f,  15.f),    // black
+  cv::Vec3f(247.f, 247.f, 247.f),    // white
+  cv::Vec3f(255.f, 230.f,  41.f),    // yellow
+  cv::Vec3f(168.f,  27.f,  27.f),    // red
+  cv::Vec3f( 29.f,  82.f, 181.f),    // blue
+  cv::Vec3f( 60.f, 133.f, 106.f)     // green
+  // cv::Vec3f( 67.f, 138.f,  28.f)      // green
 };
 
 

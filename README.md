@@ -17,8 +17,8 @@ If you encounter any problems or have suggestions regarding usage, design, or co
   If the original image is in portrait orientation while the target display is 600×400 (landscape), the system automatically rotates it by 90°.
 
 - **Parameter Adjustments**  
-  - **Saturation Factor** (recommended range: `0.0~3.0`, default `1.5`)
-  - **Contrast Factor** (recommended range: `0.0~3.0`, default `1.3`)
+  - **Saturation Factor** (recommended range: `0.0~3.0`, default `1.0`)
+  - **Contrast Factor** (recommended range: `0.0~3.0`, default `1.0`)
   - **Brightness Factor** (recommended range: `0.0~3.0`, default `1.0`)
 
 - **Rotation Angles**  
@@ -128,7 +128,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    在Insert the line before ```exit``` 0:
    > Note: Please change your username
    ```bash
-   #!/bin/sh -e
+   #!/bin/bash
    # rc.local
 
    /usr/bin/python3 /home/User/E-Paper/image_to_epaper/image_to_epaper_v2.py &
@@ -142,7 +142,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    ```
 
 6. Access the Web Interface 
-   Use a device on the same network and point the browser to http://192.168.0.x:5000 (where x is your Pi Zero 2 IP address).
+   Use a device on the same network and point the browser to http://192.168.0.x:8080 (where x is your Pi Zero 2 IP address).
 
 ---
 
@@ -163,7 +163,6 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    - You can fine-tune saturation, contrast, and brightness to find the best visual result.
    - Floyd–Steinberg dithering may produce noticeable grainy patterns, which is normal.
 
-3. Note: Currently, v1 is compatible with any hardware, while v2 is only compatible with the Pi Zero 2.
 ---
 
 ### Future Improvements
