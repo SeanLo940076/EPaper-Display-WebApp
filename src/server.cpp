@@ -147,7 +147,6 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
           }
       } else if (fieldName == "file") {
           if (part.filename.len > 0 && part.body.len > 0) {
-              // uploadedFile = "../uploads/" + std::string(part.filename.buf, part.filename.len);
               std::string uploadDir = getUploadDir();
               uploadedFile = uploadDir + std::string(part.filename.buf, part.filename.len);
               std::ofstream ofs(uploadedFile, std::ios::binary);
