@@ -2,7 +2,7 @@
 
 [English Version](README.md)
 
-此專案提供了基於 Flask 的簡易網頁應用程式，支援將使用者上傳的影像進行基本圖像處理，並推送到 Waveshare e-Paper 顯示器上顯示。此外也提供清除圖片按鈕，方便隨時清除電子紙畫面。
+此專案提供了基於 mongoose 的簡易網頁應用程式，支援將使用者上傳的影像進行基本圖像處理，並推送到 Waveshare E-Paper 電子紙上顯示。此外也提供清除圖片按鈕，方便隨時清除電子紙畫面。
 
 如果在使用、設計或程式上遇到任何問題，或有任何改進建議，歡迎提出 [Issue](../../issues) 與我們討論！
 
@@ -13,11 +13,11 @@
 - **上傳圖片**：可透過網頁上傳 `.png`, `.jpg`, `.jpeg`, `.bmp` 檔案。
 - **自動長短邊匹配**：若原圖為縱向而目標顯示為橫向(600×400)，系統自動旋轉 90°。
 - **參數調整**：
-  - 飽和度增強因子 (建議 0.0～3.0，預設 1.5)
-  - 對比度增強因子 (建議 0.0～3.0，預設 1.3)
+  - 飽和度增強因子 (建議 0.0～3.0，預設 1.0)
+  - 對比度增強因子 (建議 0.0～3.0，預設 1.0)
   - 亮度增強因子 (建議 0.0～3.0，預設 1.0)
 - **旋轉角度**：可選擇 `auto, 0, 90, 180, 270`，若為 `auto`，則只在原圖縱向時自動旋轉；若為其它值則順時針旋轉對應角度。
-- **Floyd–Steinberg 誤差擴散**：將最終影像轉換為僅含六種墨水顏色（黑、白、黃、紅、藍、綠）。
+- **Jarvis–Judice–Ninke 誤差擴散**：將最終影像轉換為僅含六種墨水顏色（黑、白、黃、紅、藍、綠）。
 - **清除圖片**：按下「清除圖片」按鈕後，會初始化電子紙並清空畫面。
 ---
 
@@ -69,11 +69,6 @@
 
 以下以 **Raspberry Pi Lite OS** 為例，示範基礎安裝與拍攝操作：
 
-> PiP 安裝過程中會遇到 × This environment is externally managed，解決方法是改成以下方法
-   ```bash
-   sudo apt install python3-requests
-   ```
-
 1. **更新系統並啟用功能**
    ```bash
    sudo apt update
@@ -82,24 +77,26 @@
    ```
    - 在 `Interface Options` 中啟用 **SPI**
 
-2. **安裝依賴項 Waveshare 4inch E-Paper**
+2. **安裝依賴項 Waveshare 4inch E-Paper (lg庫))**
     ```bash
-    sudo apt-get update
-    sudo apt-get install python3-pip
-    sudo apt-get install python3-pil
-    sudo apt-get install python3-numpy
-    sudo apt-get install python3-spidev
-    sudo apt-get install python3-flask
+   wget https://github.com/joan2937/lg/archive/master.zip
+   unzip master.zip
+   cd lg-master
+   make
+   sudo make install
     ```
 
 3. **Git 拉取檔案**
     ```bash
-    git clone https://github.com/SeanLo940076/E-Paper.git
+    git clone https://github.com/SeanLo940076/EPaper-Display-WebApp.git
     ```
 4. **執行軟體**
     ```bash
-    cd E-Paper/image_to_epaper/
-    python3 image_to_epaper.py
+   cd EPaper-Display-WebApp
+   mkdir build
+   cd build
+   cmake ..
+   make
     ```
 
 5. **設置開機自啟動**
@@ -111,10 +108,10 @@
    在 exit 0 之前添加這一行，結果如下
    > 注意：請更換使用者名稱
    ```bash
-   #!/bin/sh -e
+   #!/bin/bash
    # rc.local
 
-   /usr/bin/python3 /home/User/E-Paper/image_to_epaper/image_to_epaper_v2_zh.py &
+   /home/user/EPaper-Display-WebApp/build/ePaper_web > /home/user/EPaper-Display-WebApp/log.txt 2>&1 &
    exit 0
    ```
 
@@ -128,17 +125,36 @@
    sudo systemctl status rc-local
    ```
 
-6. 在同網域下的其他設備開啟 http://192.168.0.x:5000
+6. 在同網域下的其他設備開啟 http://192.168.0.x:8080
    > 注意：x 為 Pi zero 2 的 IP 地址
 
 ---
 
 ### 專案結構
-    ePaper-ImageProcessor/
-    ├─ app.py                # 主程式 (Flask server + image processing logic)
-    ├─ lib/                  # 放置 waveshare_epd 驅動程式 (若需要)
-    ├─ uploads/              # 預設圖片上傳儲存目錄
-    └─ README.md
+└── EPaper-Display-WebApp
+    ├── build
+    ├── CMakeLists.txt
+    ├── Demo
+    ├── include
+    │   ├── epaper.h
+    │   ├── image_processing.h
+    │   ├── server.h
+    │   └── utils.h
+    ├── lib
+    │   ├── Config
+    │   ├── e-Paper
+    │   ├── Fonts
+    │   ├── GUI
+    │   └── mongoose
+    ├── log.txt
+    ├── README.md
+    ├── README_zh.md
+    ├── src
+    │   ├── epaper.cpp
+    │   ├── image_processing.cpp
+    │   ├── main.cpp
+    │   └── server.cpp
+    └── uploads
 ---
 
 ### 常見問題
@@ -155,7 +171,7 @@
 ---
 
 ### 未來改進
-1.  因應效能問題，本專案將會改成用 C/C++ 撰寫，並多測試不同的平台，敬請期待。
+1. 預計增加番茄鐘的功能
 
 ### License
 
