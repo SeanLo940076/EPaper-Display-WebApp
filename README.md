@@ -170,8 +170,8 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
       │   ├── main.cpp
       │   └── server.cpp
       └── uploads
-    ```
-    
+   ```
+
 ---
 
 ### FAQ
