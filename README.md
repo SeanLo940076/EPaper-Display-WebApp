@@ -100,7 +100,6 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    make
    sudo make install
    ```
-   - Ensure you have also set up the Waveshare 4inch E-Paper driver or placed it into a lib/ directory for Python to find.
 
 3. **Clone This Repository**
    ```bash
@@ -145,30 +144,34 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
 ---
 
 ### Project Structure
-─── EPaper-Display-WebApp
-    ├── build
-    ├── CMakeLists.txt
-    ├── Demo
-    ├── include
-    │   ├── epaper.h
-    │   ├── image_processing.h
-    │   ├── server.h
-    │   └── utils.h
-    ├── lib
-    │   ├── Config
-    │   ├── e-Paper
-    │   ├── Fonts
-    │   ├── GUI
-    │   └── mongoose
-    ├── log.txt
-    ├── README.md
-    ├── README_zh.md
-    ├── src
-    │   ├── epaper.cpp
-    │   ├── image_processing.cpp
-    │   ├── main.cpp
-    │   └── server.cpp
-    └── uploads
+
+   ```bash
+   ─── EPaper-Display-WebApp
+      ├── build
+      ├── CMakeLists.txt
+      ├── Demo
+      ├── include
+      │   ├── epaper.h
+      │   ├── image_processing.h
+      │   ├── server.h
+      │   └── utils.h
+      ├── lib
+      │   ├── Config
+      │   ├── e-Paper
+      │   ├── Fonts
+      │   ├── GUI
+      │   └── mongoose
+      ├── log.txt
+      ├── README.md
+      ├── README_zh.md
+      ├── src
+      │   ├── epaper.cpp
+      │   ├── image_processing.cpp
+      │   ├── main.cpp
+      │   └── server.cpp
+      └── uploads
+    ```
+    
 ---
 
 ### FAQ
