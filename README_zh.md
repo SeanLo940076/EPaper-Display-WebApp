@@ -132,30 +132,34 @@
 ---
 
 ### 專案結構
-─── EPaper-Display-WebApp
-    ├── build
-    ├── CMakeLists.txt
-    ├── Demo
-    ├── include
-    │   ├── epaper.h
-    │   ├── image_processing.h
-    │   ├── server.h
-    │   └── utils.h
-    ├── lib
-    │   ├── Config
-    │   ├── e-Paper
-    │   ├── Fonts
-    │   ├── GUI
-    │   └── mongoose
-    ├── log.txt
-    ├── README.md
-    ├── README_zh.md
-    ├── src
-    │   ├── epaper.cpp
-    │   ├── image_processing.cpp
-    │   ├── main.cpp
-    │   └── server.cpp
-    └── uploads
+
+   ```bash
+   ─── EPaper-Display-WebApp
+      ├── build
+      ├── CMakeLists.txt
+      ├── Demo
+      ├── include
+      │   ├── epaper.h
+      │   ├── image_processing.h
+      │   ├── server.h
+      │   └── utils.h
+      ├── lib
+      │   ├── Config
+      │   ├── e-Paper
+      │   ├── Fonts
+      │   ├── GUI
+      │   └── mongoose
+      ├── log.txt
+      ├── README.md
+      ├── README_zh.md
+      ├── src
+      │   ├── epaper.cpp
+      │   ├── image_processing.cpp
+      │   ├── main.cpp
+      │   └── server.cpp
+      └── uploads
+    ```
+    
 ---
 
 ### 常見問題
