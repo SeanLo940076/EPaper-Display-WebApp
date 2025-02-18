@@ -2,7 +2,7 @@
 
 [中文版本](./README_zh.md)
 
-This project provides a simple Flask-based web application for uploading images, applying basic adjustments (saturation, contrast, brightness), and displaying the results on a Waveshare e-Paper screen. It also includes a convenient option to clear the e-paper whenever needed.
+This project provides a simple mongoose-based web application for uploading images, applying basic adjustments (saturation, contrast, brightness), and displaying the results on a Waveshare e-Paper screen. It also includes a convenient option to clear the e-paper whenever needed.
 
 If you encounter any problems or have suggestions regarding usage, design, or code improvement, feel free to open an [Issue](../../issues) to discuss with us!
 
@@ -84,11 +84,6 @@ If you encounter any problems or have suggestions regarding usage, design, or co
 
 Below is an example using **Raspberry Pi Lite OS**, showing basic installation steps:
 
-> If the environment shows `× This environment is externally managed` when installing via pip, switch to system-level installation such as:
-   ```bash
-   sudo apt install python3-requests
-   ```
-
 1. **Update System & Enable SPI**  
    ```bash
    sudo apt update
@@ -97,26 +92,29 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    ```
    - In Interface Options, enable SPI.
 
-2. **Install Dependencies**
+2. **Install Dependencies Waveshare 4inch E-Paper (lg lib)**
    ```bash
-   sudo apt-get update
-   sudo apt-get install python3-pip
-   sudo apt-get install python3-pil
-   sudo apt-get install python3-numpy
-   sudo apt-get install python3-spidev
-   sudo apt-get install python3-flask
+   wget https://github.com/joan2937/lg/archive/master.zip
+   unzip master.zip
+   cd lg-master
+   make
+   sudo make install
    ```
    - Ensure you have also set up the Waveshare 4inch E-Paper driver or placed it into a lib/ directory for Python to find.
 
 3. **Clone This Repository**
    ```bash
-   sit clone https://github.com/SeanLo940076/E-Paper.git
+   git clone https://github.com/SeanLo940076/EPaper-Display-WebApp.git
    ```
 
 4. **Run the Application**
    ```bash
-   cd E-Paper/image_to_epaper/
-   python3 image_to_epaper.py
+   cd EPaper-Display-WebApp
+   mkdir build
+   cd build
+   cmake ..
+   make
+   ./ePaper_web
    ```
 
 5. **Enable Startup on Boot (Optional)**
@@ -131,7 +129,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    #!/bin/bash
    # rc.local
 
-   /usr/bin/python3 /home/User/E-Paper/image_to_epaper/image_to_epaper_v2.py &
+   /home/user/EPaper-Display-WebApp/build/ePaper_web > /home/user/EPaper-Display-WebApp/log.txt 2>&1 &
    exit 0
    ```
 
@@ -147,11 +145,30 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
 ---
 
 ### Project Structure
-    EPaper-Display-WebApp/
-    ├─ app.py                # Main Flask program (image processing logic + web server)
-    ├─ lib/                  # (Optional) place waveshare_epd driver here
-    ├─ uploads/              # Default upload directory for images
-    └─ README.md
+─── EPaper-Display-WebApp
+    ├── build
+    ├── CMakeLists.txt
+    ├── Demo
+    ├── include
+    │   ├── epaper.h
+    │   ├── image_processing.h
+    │   ├── server.h
+    │   └── utils.h
+    ├── lib
+    │   ├── Config
+    │   ├── e-Paper
+    │   ├── Fonts
+    │   ├── GUI
+    │   └── mongoose
+    ├── log.txt
+    ├── README.md
+    ├── README_zh.md
+    ├── src
+    │   ├── epaper.cpp
+    │   ├── image_processing.cpp
+    │   ├── main.cpp
+    │   └── server.cpp
+    └── uploads
 ---
 
 ### FAQ
@@ -167,7 +184,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
 
 ### Future Improvements
 
-Due to performance concerns, this project will be rewritten in C/C++. Stay tuned!
+1. It is expected to add the Pomodoro.
 
 ### License
 

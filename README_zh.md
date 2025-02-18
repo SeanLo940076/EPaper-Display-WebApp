@@ -77,7 +77,7 @@
    ```
    - 在 `Interface Options` 中啟用 **SPI**
 
-2. **安裝依賴項 Waveshare 4inch E-Paper (lg庫))**
+2. **安裝依賴項 Waveshare 4inch E-Paper (lg庫)**
     ```bash
    wget https://github.com/joan2937/lg/archive/master.zip
    unzip master.zip
@@ -97,6 +97,7 @@
    cd build
    cmake ..
    make
+   ./ePaper_web
     ```
 
 5. **設置開機自啟動**
@@ -131,7 +132,7 @@
 ---
 
 ### 專案結構
-└── EPaper-Display-WebApp
+─── EPaper-Display-WebApp
     ├── build
     ├── CMakeLists.txt
     ├── Demo
