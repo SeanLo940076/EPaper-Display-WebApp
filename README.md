@@ -187,7 +187,8 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
 
 ### Future Improvements
 
-1. It is expected to add the Pomodoro.
+1. Added 7.3in E-Paper version.
+2. It is expected to add the Pomodoro.
 
 ### License
 
