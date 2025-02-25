@@ -1,13 +1,21 @@
-#include "image_processing.h"
-#include "utils.h"
-#include <opencv2/opencv.hpp>
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
-#include "epaper.h"
 #include <chrono>
 #include <cstdlib>  // for rand()
+#include <opencv2/opencv.hpp>
+
+#include "image_processing.h"
+#include "utils.h"
+
+#if defined(USE_7_3_EPAPER)
+    #include "EDP_7in3_epaper.h"
+#elif defined(USE_4_0_EPAPER)
+    #include "EDP_4in0_epaper.h"
+#else
+    #include "EDP_4in0_epaper.h"
+#endif
 
 // 引入 e-Paper 更新相關的函式
 extern "C" {
@@ -343,6 +351,14 @@ bool process_and_display(const std::string &path,
 
     // cv::imwrite("pro_image_3.jpg", inputBGR);
 
+#if (USE_7_3_EPAPER)
+    const int APP_W = 800, APP_H = 480;
+#elif (USE_4_0_EPAPER)
+    const int APP_W = 600, APP_H = 400;
+#else
+    const int APP_W = 600, APP_H = 400;
+#endif
+
     // (4) Resize 與 letterbox 到 600×400
     const int APP_W = 600, APP_H = 400;
     int w = inputBGR.cols, h = inputBGR.rows;
@@ -367,10 +383,21 @@ bool process_and_display(const std::string &path,
 
     // (6) 旋轉到 e-Paper 實際尺寸 (400×600)
     cv::Mat outIndexRot;
+
+#if (USE_7_3_EPAPER)
+    // cv::rotate(outIndex, outIndexRot, 180);
+    outIndexRot = outIndex;
+    const unsigned int epdWidth = 800, epdHeight = 480;
+#elif (USE_4_0_EPAPER)
     cv::rotate(outIndex, outIndexRot, cv::ROTATE_90_COUNTERCLOCKWISE);
+    const unsigned int epdWidth = 400, epdHeight = 600;
+#else
+    cv::rotate(outIndex, outIndexRot, cv::ROTATE_90_COUNTERCLOCKWISE);
+    const unsigned int epdWidth = 400, epdHeight = 600;
+#endif
 
     // (7) 建立 e-Paper 緩衝區
-    const unsigned int epdWidth = 400, epdHeight = 600;
+    // const unsigned int epdWidth = 400, epdHeight = 600;
     const unsigned int imgSize = ((epdWidth % 2 == 0) ? (epdWidth / 2) : (epdWidth / 2 + 1)) * epdHeight;
     UBYTE* imgBuf = (UBYTE*)malloc(imgSize);
     if (!imgBuf) {
