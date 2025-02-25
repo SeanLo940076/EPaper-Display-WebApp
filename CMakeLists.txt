@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(Pi5EPaper LANGUAGES C CXX)
+project(EPaperDisplayWebApp LANGUAGES C CXX)
 
 # 設定 C / C++ 標準
 set(CMAKE_C_STANDARD 11)
@@ -7,11 +7,28 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# 加入選項：是否啟用 7.3 吋電子紙支援
+option(USE_7_3_EPAPER "Enable support for 7.3 inch E-Paper" OFF)
+option(USE_4_0_EPAPER "Enable support for 4.0 inch E-Paper" OFF)
+
 # 編譯選項
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O2 -g -ffunction-sections -fdata-sections")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2 -g -ffunction-sections -fdata-sections")
 
 # 定義編譯參數
+# 定義編譯參數：根據選項決定使用哪個電子紙版本
+if(USE_7_3_EPAPER)
+    message(STATUS "Building with support for 7.3 inch E-Paper")
+    add_definitions(-DUSE_7_3_EPAPER)
+elseif(USE_4_0_EPAPER)
+    message(STATUS "Building with support for 4.0 inch E-Paper (default)")
+    add_definitions(-DUSE_4_0_EPAPER)
+else()
+    message(STATUS "Building with support for 4.0 inch E-Paper (default)")
+    add_definitions(-DUSE_4_0_EPAPER)
+endif()
+
+# 其他通用的編譯參數
 add_definitions(-DRPI -DUSE_LGPIO_LIB -DDEBUG)
 
 # 尋找依賴項
