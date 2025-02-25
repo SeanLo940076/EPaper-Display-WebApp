@@ -1,4 +1,5 @@
-#include "epaper.h"
+#include "EDP_7in3_epaper.h"
+#include "EDP_4in0_epaper.h"
 #include "server.h"
 #include <cstdlib>
 #include <iostream>

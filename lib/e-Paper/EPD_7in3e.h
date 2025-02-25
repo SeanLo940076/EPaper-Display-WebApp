@@ -1,11 +1,11 @@
 /*****************************************************************************
-* | File        :   EPD_4in0e.h
+* | File        :   EPD_7in3e.h
 * | Author      :   Waveshare team
-* | Function    :   4inch e-Paper (E) Driver
+* | Function    :   7.3inch e-Paper (F) Driver
 * | Info        :
 *----------------
 * | This version:   V1.0
-* | Date        :   2024-08-20
+* | Date        :   2022-10-20
 * | Info        :
 * -----------------------------------------------------------------------------
 #
@@ -28,30 +28,32 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#ifndef __EPD_4IN0E_H_
-#define __EPD_4IN0E_H_
+#ifndef __EPD_7IN3E_H_
+#define __EPD_7IN3E_H_
 
 #include "DEV_Config.h"
 
 // Display resolution
-#define EPD_4IN0E_WIDTH       400
-#define EPD_4IN0E_HEIGHT      600
+#define EPD_7IN3E_WIDTH       800
+#define EPD_7IN3E_HEIGHT      480
 
 /**********************************
 Color Index
 **********************************/
-#define EPD_4IN0E_BLACK   0x0   /// 000
-#define EPD_4IN0E_WHITE   0x1   /// 001
-#define EPD_4IN0E_YELLOW  0x2   /// 010
-#define EPD_4IN0E_RED     0x3   /// 011
-#define EPD_4IN0E_BLUE    0x5   /// 101
-#define EPD_4IN0E_GREEN   0x6   /// 110
+#define EPD_7IN3E_BLACK   0x0   /// 000
+#define EPD_7IN3E_WHITE   0x1   /// 001
+#define EPD_7IN3E_YELLOW  0x2   /// 010
+#define EPD_7IN3E_RED     0x3   /// 011
+// #define EPD_7IN3E_ORANGE  0x4   /// 100
+#define EPD_7IN3E_BLUE    0x5   /// 101
+#define EPD_7IN3E_GREEN   0x6   /// 110
 
-void EPD_4IN0E_Init(void);
-void EPD_4IN0E_Clear(UBYTE color);
-void EPD_4IN0E_Show7Block(void);
-void EPD_4IN0E_Show(void);
-void EPD_4IN0E_Display(UBYTE *Image);
-void EPD_4IN0E_Sleep(void);
+void EPD_7IN3E_Init(void);
+void EPD_7IN3E_Init_Fast(void);
+void EPD_7IN3E_Clear(UBYTE color);
+void EPD_7IN3E_Show7Block(void);
+void EPD_7IN3E_Show(void);
+void EPD_7IN3E_Display(UBYTE *Image);
+void EPD_7IN3E_Sleep(void);
 
 #endif
