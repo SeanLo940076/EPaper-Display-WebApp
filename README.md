@@ -91,14 +91,15 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    sudo raspi-config
    ```
    - After running `sudo raspi-config` command, the "Interface Options" is shown and you need to enable SPI as the following steps.
-     
-       ![image](https://gist.github.com/user-attachments/assets/5c3a7f88-060a-41e6-9c71-4c43633636ad)
-
-      ![image](https://gist.github.com/user-attachments/assets/23089a0d-c3b2-401c-b85a-2cb08626df85)
-
-      ![image](https://gist.github.com/user-attachments/assets/0b437788-6cfc-450c-85f9-796ba533a799)
-
-      ![image](https://gist.github.com/user-attachments/assets/ce713ac5-183a-474b-8097-da8b101f738b)
+   
+   <div align="center">
+      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_1.png" width="300" />
+      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_2.png" width="300" />
+   </div>
+   <div align="center">
+      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_3.png" width="300" />
+      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_4.png" width="300" />
+   </div>
 
 2. **Install Dependencies Waveshare 4inch E-Paper (lg lib)**
    ```bash
