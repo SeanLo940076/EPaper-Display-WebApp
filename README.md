@@ -38,19 +38,19 @@ If you encounter any problems or have suggestions regarding usage, design, or co
 
 **Hardware Setup / Appearance**  
 <div align="center">
-  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration1.jpg" width="300" />
-  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration2.jpg" width="300" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration1.jpg" width="350" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration2.jpg" width="350" />
 </div>
 
 **E-Paper Display Output**  
 <div align="center">
-  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo1.jpg" width="300" />
-  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo2.jpg" width="300" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo1.jpg" width="350" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/Photo2.jpg" width="350" />
 </div>
 
 **Web page configuration**
 <div align="center">
-  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg" width="300" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg" width="350" />
 </div>
 
 ---
@@ -93,12 +93,12 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    - After running `sudo raspi-config` command, the "Interface Options" is shown and you need to enable SPI as the following steps.
    
    <div align="center">
-      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_1.png" width="300" />
-      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_2.png" width="300" />
+      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_1.png" width="350" />
+      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_2.png" width="350" />
    </div>
    <div align="center">
-      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_3.png" width="300" />
-      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_4.png" width="300" />
+      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_3.png" width="350" />
+      <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/SPI_enabled_4.png" width="350" />
    </div>
 
 2. **Install Dependencies Waveshare 4inch E-Paper (lg lib)**
