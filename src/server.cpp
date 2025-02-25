@@ -12,11 +12,11 @@
 #include "server.h"
 
 #if defined(USE_7_3_EPAPER)
-    #include "EDP_7in3_epaper.h"
+    #include "EPD_7in3_epaper.h"
 #elif defined(USE_4_0_EPAPER)
-    #include "EDP_4in0_epaper.h"
+    #include "EPD_4in0_epaper.h"
 #else
-    #include "EDP_4in0_epaper.h"
+    #include "EPD_4in0_epaper.h"
 #endif
 
 std::string getExecutablePath() {

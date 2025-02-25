@@ -1,8 +1,8 @@
-#ifndef EDP_7IN3_EPAPER_H
-#define EDP_7IN3_EPAPER_H
+#ifndef EPD_7IN3_EPAPER_H
+#define EPD_7IN3_EPAPER_H
 
 extern "C" {
-    #include "lib/e-Paper/EDP_7in3_epaper.h"
+    #include "lib/e-Paper/EPD_7in3e.h"
   }
 
 // 初始化 e-Paper 模組，若失敗回傳 false
@@ -19,4 +19,4 @@ void clear_epaper();
 // 程式結束前的清理動作（進入休眠並釋放模組）
 void cleanup_epaper();
 
-#endif // EDP_7IN3_EPAPER_H
+#endif // EPD_7IN3_EPAPER_H
