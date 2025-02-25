@@ -90,7 +90,15 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    sudo apt upgrade -y
    sudo raspi-config
    ```
-   - In Interface Options, enable SPI.
+   - After running `sudo raspi-config` command, the "Interface Options" is shown and you need to enable SPI as the following steps.
+     
+       ![image](https://gist.github.com/user-attachments/assets/5c3a7f88-060a-41e6-9c71-4c43633636ad)
+
+      ![image](https://gist.github.com/user-attachments/assets/23089a0d-c3b2-401c-b85a-2cb08626df85)
+
+      ![image](https://gist.github.com/user-attachments/assets/0b437788-6cfc-450c-85f9-796ba533a799)
+
+      ![image](https://gist.github.com/user-attachments/assets/ce713ac5-183a-474b-8097-da8b101f738b)
 
 2. **Install Dependencies Waveshare 4inch E-Paper (lg lib)**
    ```bash
