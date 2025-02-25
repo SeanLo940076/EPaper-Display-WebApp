@@ -63,9 +63,24 @@ file(GLOB MONGOOSE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/lib/mongoose/*.c")
 add_library(mongoose STATIC ${MONGOOSE_SOURCES})
 target_include_directories(mongoose PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/lib/mongoose")
 
+# 先取得其他所有 .cpp 檔案，但不包含 epaper 的檔案
+file(GLOB OTHER_CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+list(REMOVE_ITEM OTHER_CPP_SOURCES 
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/EPD_7in3_epaper.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/EPD_4in0_epaper.cpp"
+)
 
-# 搜尋 src 下所有 C++ 檔案 (main.cpp, epaper.cpp, image_processing.cpp, server.cpp)
-file(GLOB CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+# 根據選項決定要加入哪一個 epaper 實作檔案
+if(USE_7_3_EPAPER)
+    message(STATUS "Using 7.3 inch E-Paper implementation")
+    set(EPAPER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/EPD_7in3_epaper.cpp")
+else()
+    message(STATUS "Using 4.0 inch E-Paper implementation")
+    set(EPAPER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/EPD_4in0_epaper.cpp")
+endif()
+
+# 組合所有需要編譯的 .cpp 檔案
+set(CPP_SOURCES ${OTHER_CPP_SOURCES} ${EPAPER_SRC})
 
 # 建立執行檔 ePaper_web
 add_executable(ePaper_web ${CPP_SOURCES})

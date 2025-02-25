@@ -351,16 +351,16 @@ bool process_and_display(const std::string &path,
 
     // cv::imwrite("pro_image_3.jpg", inputBGR);
 
-#if (USE_7_3_EPAPER)
+#if defined(USE_7_3_EPAPER)
     const int APP_W = 800, APP_H = 480;
-#elif (USE_4_0_EPAPER)
+#elif defined(USE_4_0_EPAPER)
     const int APP_W = 600, APP_H = 400;
 #else
     const int APP_W = 600, APP_H = 400;
 #endif
 
     // (4) Resize 與 letterbox 到 600×400
-    const int APP_W = 600, APP_H = 400;
+    // const int APP_W = 600, APP_H = 400;
     int w = inputBGR.cols, h = inputBGR.rows;
     float scale = std::min(APP_W / (float)w, APP_H / (float)h);
     int newW = static_cast<int>(std::round(w * scale));
@@ -384,11 +384,11 @@ bool process_and_display(const std::string &path,
     // (6) 旋轉到 e-Paper 實際尺寸 (400×600)
     cv::Mat outIndexRot;
 
-#if (USE_7_3_EPAPER)
+#if defined(USE_7_3_EPAPER)
     // cv::rotate(outIndex, outIndexRot, 180);
     outIndexRot = outIndex;
     const unsigned int epdWidth = 800, epdHeight = 480;
-#elif (USE_4_0_EPAPER)
+#elif defined(USE_4_0_EPAPER)
     cv::rotate(outIndex, outIndexRot, cv::ROTATE_90_COUNTERCLOCKWISE);
     const unsigned int epdWidth = 400, epdHeight = 600;
 #else
