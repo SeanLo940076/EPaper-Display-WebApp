@@ -1,5 +1,5 @@
-#include "epaper.h"
 #include <iostream>
+#include "EDP_7in3_epaper.h"
  
 // 包含 e-Paper 所需的 C 語言標頭檔，注意依照你的目錄結構調整路徑
 extern "C" {
