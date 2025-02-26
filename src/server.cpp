@@ -171,21 +171,21 @@ static const char *HTML_PAGE = R"(
           <option value="270">270°</option>
         </select>
         
-        <label for="saturation">Saturation: 0.0~3.0 (default 1.0)</label>
+        <label for="saturation">飽和度 Saturation: 0.0~3.0 (default 1.0)</label>
         <input type="text" name="saturation" id="saturation" value="1.0">
         
-        <label for="contrast">Contrast: 0.0~3.0 (default 1.0)</label>
+        <label for="contrast">對比度 Contrast: 0.0~3.0 (default 1.0)</label>
         <input type="text" name="contrast" id="contrast" value="1.0">
         
-        <label for="brightness">Brightness: 0.0~3.0 (default 1.0)</label>
+        <label for="brightness">亮度 Brightness: 0.0~3.0 (default 1.0)</label>
         <input type="text" name="brightness" id="brightness" value="1.0">
         
         <div class="checkbox-group">
-          <label for="ahe">Adaptive Histogram Equalization</label>
+          <label for="ahe">自適應提高對比 Adaptive Histogram Equalization</label>
           <input type="checkbox" name="useAHE" id="ahe" value="true">
         </div>
         
-        <label for="dither">Dithering Algorithm:</label>
+        <label for="dither">影像抖動算法 Dithering Algorithm:</label>
         <select name="dither" id="dither">
           <option value="jarvisJudiceNinke" selected>Jarvis–Judice–Ninke</option>
           <option value="floydSteinberg">Floyd–Steinberg</option>
