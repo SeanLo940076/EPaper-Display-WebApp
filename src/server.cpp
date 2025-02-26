@@ -104,6 +104,7 @@ static const char *HTML_PAGE = R"(
           margin-bottom: 10px;
       }
       .checkbox-group label {
+          font-size: 1em;
           margin: 0;
           margin-right: 10px;
           font-weight: normal;
