@@ -133,8 +133,9 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    ```bash
    sudo nano /etc/rc.local
    ```
-   Insert the line before ```exit``` 0:
+   Insert the line before ```exit 0``` :
    > Note: Please change your username
+   
    ```bash
    #!/bin/bash
    # rc.local
