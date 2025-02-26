@@ -89,12 +89,14 @@ static const char *HTML_PAGE = R"(
     <div class="container">
       <h1>E-Paper Image Upload</h1>
       <p>Select a photo and set the image parameters</p>
+
       <p class="param-note">
         Rotation: auto or 0/90/180/270 <br>
         Saturation: 0.0~3.0 (default 1.0) <br>
         Contrast: 0.0~3.0 (default 1.0) <br>
         Brightness: 0.0~3.0 (default 1.0)
       </p>
+
       <form method="post" enctype="multipart/form-data" action="/">
         <input type="file" name="file" accept="image/*"><br>
         <label for="rotation">Rotation:</label>
@@ -112,15 +114,22 @@ static const char *HTML_PAGE = R"(
         <label>Brightness:</label>
         <input type="text" name="brightness" value="1.0"><br>
         <!-- 新增自適應直方圖均衡化選項 -->
-        <label for="ahe">自適應直方圖均衡化:</label>
+        <label for="ahe">Adaptive Histogram Equalization:</label>
         <input type="checkbox" name="useAHE" id="ahe" value="true"><br>
+        <!-- 新增抖色演算法選項 -->
+        <label for="dither">Dithering Algorithm:</label>
+        <select name="dither" id="dither">
+            <option value="jarvisJudiceNinke" selected>Jarvis–Judice–Ninke</option>
+            <option value="floydSteinberg">Floyd–Steinberg</option>
+            <option value="floydSteinbergNoise">Floyd–Steinberg-Noise</option>
+        </select><br>
         <div class="button-group">
-          <input type="submit" name="action" value="Upload and display">
-          <input type="submit" name="action" value="Clear the E-Paper screen">
-          <!-- 改為 button 類型 -->
+          <input type="submit" name="action" value="上傳並顯示">
+          <input type="submit" name="action" value="清除電子紙畫面">
           <input type="button" id="reset-btn" value="Reset">
         </div>
       </form>
+
       <!-- Spinner 轉圈動畫，預設隱藏 -->
       <div id="spinner" style="display: none;">
         <div class="loader"></div>
@@ -159,33 +168,42 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
   float sat = 1.0f, con = 1.0f, bri = 1.0f;
   std::string uploadedFile;
   bool useAHE = false;  // 新增變數，預設不啟用
+  std::string ditherMethod = "jarvisJudiceNinke";  // 預設值
 
   while ((newofs = mg_http_next_multipart(hm->body, ofs, &part)) > ofs) {
       ofs = newofs;
       std::string fieldName(part.name.buf, part.name.len);
       if (fieldName == "action") {
           action.assign(part.body.buf, part.body.len);
-      } else if (fieldName == "rotation") {
+      } 
+      else if (fieldName == "rotation") {
           rotation.assign(part.body.buf, part.body.len);
-      } else if (fieldName == "saturation") {
+      } 
+      else if (fieldName == "saturation") {
           try {
               sat = std::stof(std::string(part.body.buf, part.body.len));
           } catch(...) {}
-      } else if (fieldName == "contrast") {
+      } 
+      else if (fieldName == "contrast") {
           try {
               con = std::stof(std::string(part.body.buf, part.body.len));
           } catch(...) {}
-      } else if (fieldName == "brightness") {
+      } 
+      else if (fieldName == "brightness") {
           try {
               bri = std::stof(std::string(part.body.buf, part.body.len));
           } catch(...) {}
-      } else if (fieldName == "useAHE") {
-          // 若 checkbox 有被選取，則其值會是 "true"
+      } 
+      else if (fieldName == "useAHE") {
           std::string val(part.body.buf, part.body.len);
           if(val == "true") {
               useAHE = true;
           }
-      } else if (fieldName == "file") {
+      } 
+      else if (fieldName == "dither") {
+          ditherMethod.assign(part.body.buf, part.body.len);
+      } 
+      else if (fieldName == "file") {
           if (part.filename.len > 0 && part.body.len > 0) {
               std::string uploadDir = getUploadDir();
               uploadedFile = uploadDir + std::string(part.filename.buf, part.filename.len);
@@ -194,7 +212,8 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
                   ofs.write(part.body.buf, part.body.len);
                   ofs.close();
                   std::cout << "[INFO] File saved to " << uploadedFile << std::endl;
-              } else {
+              } 
+              else {
                   std::cerr << "[ERROR] cannot open " << uploadedFile << std::endl;
                   uploadedFile.clear();
               }
@@ -207,16 +226,19 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
       clear_epaper();
       msg = "E-Paper display cleared!";
       std::cout << "[INFO] Clear e-paper" << std::endl;
-  } else if (action == "Upload and display") {
+  } 
+  else if (action == "Upload and display") {
       if (!uploadedFile.empty()) {
           // 修改 process_and_display 函數，新增 useAHE 參數
           std::cout << "[INFO] Open " << uploadedFile << std::endl;
           bool ok = process_and_display(uploadedFile, rotation, sat, con, bri, useAHE);
           msg = ok ? "圖片已上傳並顯示到 e-paper!" : "圖片處理失敗!";
-      } else {
+      } 
+      else {
           msg = "未找到圖片或圖片名稱太長";
       }
-  } else {
+  } 
+  else {
       msg = "未知動作或未選擇檔案!";
   }
 
@@ -234,10 +256,12 @@ static void fn(struct mg_connection *c, int ev, void *ev_data) {
             // POST => 處理上傳
             else if(mg_strcmp(hm->method, mg_str("POST"))==0) {
               handle_multipart_upload(c, hm);
-            } else {
+            } 
+            else {
               mg_http_reply(c,405,"","Method Not Allowed\n");
             }
-        } else {
+        } 
+        else {
             mg_http_reply(c, 404, "", "Not Found\n");
         }
     }

@@ -65,7 +65,7 @@ static inline void addError(cv::Mat &img, int y, int x, const cv::Vec3f &err, fl
     img.at<cv::Vec3f>(y, x) = pixel;
 }
 
-// 改進版本：使用即時夾緊與蛇形掃描
+// 改進版本 floydSteinberg ：使用即時夾緊與蛇形掃描
 static void floydSteinberg6Color(const cv::Mat &inputBGR, cv::Mat &outIndex) {
     // 轉換原始影像為 32F，並將 BGR 轉成 RGB
     cv::Mat floatRGB;
@@ -185,7 +185,7 @@ static void jarvisJudiceNinke6Color(const cv::Mat &inputBGR, cv::Mat &outIndex) 
     }
 }
 
-// 混入隨機噪聲的 Floyd–Steinberg 誤差擴散 (6 色)
+// 混入隨機噪聲的 Floyd–Steinberg-Noise 誤差擴散 (6 色)
 static void floydSteinbergWithNoise6Color(const cv::Mat &inputBGR, cv::Mat &outIndex, float noiseMagnitude) {
     // 轉換原始影像為 32F，並將 BGR 轉成 RGB
     cv::Mat floatRGB;
@@ -260,6 +260,7 @@ static void floydSteinbergWithNoise6Color(const cv::Mat &inputBGR, cv::Mat &outI
     }
 }
 
+// 自適應直方圖等化 Adaptive Histogram Equalization (CLAHE)
 static void AdaptiveHistogramEqualization(cv::Mat &img) {
     // 轉換到 LAB 空間
     cv::Mat lab;
@@ -279,28 +280,10 @@ static void AdaptiveHistogramEqualization(cv::Mat &img) {
     cv::cvtColor(lab, img, cv::COLOR_Lab2BGR);
 }
 
-static void HistogramEqualization(cv::Mat &img) {
-    // 如果是彩色圖像，則轉換到 YCrCb 色彩空間
-    if (img.channels() >= 3) {
-        cv::Mat ycrcb;
-        cv::cvtColor(img, ycrcb, cv::COLOR_BGR2YCrCb);
-        std::vector<cv::Mat> channels;
-        cv::split(ycrcb, channels);
-        // 對 Y 通道進行直方圖均衡化
-        cv::equalizeHist(channels[0], channels[0]);
-        // 合併通道並轉回 BGR
-        cv::merge(channels, ycrcb);
-        cv::cvtColor(ycrcb, img, cv::COLOR_YCrCb2BGR);
-    } else {
-        // 如果是灰階圖，直接均衡化
-        cv::equalizeHist(img, img);
-    }
-}
-
 bool process_and_display(const std::string &path,
                          const std::string &rotationStr,
-                         float sat, float con, float bri,
-                         bool useAHE) {
+                         float sat, float con, float bri, bool useAHE,
+                         const std::string &ditherMethod) {
 
     // 記錄起始時間
     auto start_time = std::chrono::high_resolution_clock::now();
