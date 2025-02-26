@@ -49,30 +49,93 @@ static const char *HTML_PAGE = R"(
   <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Paper Upload</title>
     <style>
-      body { font-family: Arial, sans-serif; background: #f7f7f7; text-align: center; }
-      .container { width: 90%; max-width: 600px; margin: 30px auto; background: #fff;
-                  padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 8px; }
-      h1 { color: #333; }
-      input[type="file"], select, input[type="text"] {
-        margin: 10px 0; padding: 8px; font-size: 1em; width: 80%;
+      /* 基本重置與 box-sizing 設定 */
+      * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+      }
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: #f2f2f2;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          padding: 10px;
+      }
+      .container {
+          width: 100%;
+          max-width: 500px;
+          background: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      h1 {
+          text-align: center;
+          color: #333;
+          margin-bottom: 15px;
+          font-size: 1.5em;
+      }
+      p {
+          margin-bottom: 10px;
+          color: #555;
+          line-height: 1.4;
+      }
+      .param-note {
+          font-size: 0.9em;
+          margin-bottom: 15px;
+      }
+      label {
+          display: block;
+          margin: 10px 0 5px;
+          font-weight: bold;
+          color: #444;
+      }
+      input[type="file"],
+      select,
+      input[type="text"] {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 1em;
       }
       .button-group {
-        display: flex; justify-content: center; gap: 20px; margin-top: 10px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 15px;
       }
-      input[type="submit"], input[type="button"] {
-        background: #007BFF; color: #fff; border: none;
-        padding: 10px 20px; border-radius: 4px; cursor: pointer;
+      .button-group input {
+          flex: 1 1 30%;
+          background: #007BFF;
+          color: #fff;
+          border: none;
+          padding: 12px;
+          border-radius: 4px;
+          font-size: 1em;
+          cursor: pointer;
+          text-align: center;
       }
-      input[type="submit"]:hover, input[type="button"]:hover { background: #0056b3; }
-      .message { color: green; font-weight: bold; margin-bottom: 20px; }
-      .param-note { font-size: 0.8em; color: #555; }
-      a { text-decoration: none; color: #007BFF; }
+      .button-group input:hover {
+          background: #0056b3;
+      }
+      .message {
+          margin-top: 20px;
+          text-align: center;
+          font-weight: bold;
+          color: green;
+      }
       /* Spinner 的 CSS */
       .loader {
-          border: 8px solid #f3f3f3;
-          border-top: 8px solid #007BFF;
+          border: 6px solid #f3f3f3;
+          border-top: 6px solid #007BFF;
           border-radius: 50%;
           width: 40px;
           height: 40px;
@@ -83,22 +146,28 @@ static const char *HTML_PAGE = R"(
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
       }
+      /* 小螢幕調整 */
+      @media (max-width: 480px) {
+          h1 { font-size: 1.3em; }
+          .param-note { font-size: 0.8em; }
+          .button-group input { font-size: 0.9em; padding: 10px; }
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>E-Paper Image Upload</h1>
       <p>Select a photo and set the image parameters</p>
-
       <p class="param-note">
-        Rotation: auto or 0/90/180/270 <br>
-        Saturation: 0.0~3.0 (default 1.0) <br>
-        Contrast: 0.0~3.0 (default 1.0) <br>
+        Rotation: auto or 0/90/180/270<br>
+        Saturation: 0.0~3.0 (default 1.0)<br>
+        Contrast: 0.0~3.0 (default 1.0)<br>
         Brightness: 0.0~3.0 (default 1.0)
       </p>
-
       <form method="post" enctype="multipart/form-data" action="/">
-        <input type="file" name="file" accept="image/*"><br>
+        <label for="file">Choose Image:</label>
+        <input type="file" name="file" id="file" accept="image/*">
+        
         <label for="rotation">Rotation:</label>
         <select name="rotation" id="rotation">
           <option value="auto">auto</option>
@@ -106,31 +175,33 @@ static const char *HTML_PAGE = R"(
           <option value="90">90°</option>
           <option value="180">180°</option>
           <option value="270">270°</option>
-        </select><br>
-        <label>Saturation:</label>
-        <input type="text" name="saturation" value="1.0"><br>
-        <label>Contrast:</label>
-        <input type="text" name="contrast" value="1.0"><br>
-        <label>Brightness:</label>
-        <input type="text" name="brightness" value="1.0"><br>
-        <!-- 新增自適應直方圖均衡化選項 -->
+        </select>
+        
+        <label for="saturation">Saturation:</label>
+        <input type="text" name="saturation" id="saturation" value="1.0">
+        
+        <label for="contrast">Contrast:</label>
+        <input type="text" name="contrast" id="contrast" value="1.0">
+        
+        <label for="brightness">Brightness:</label>
+        <input type="text" name="brightness" id="brightness" value="1.0">
+        
         <label for="ahe">Adaptive Histogram Equalization:</label>
-        <input type="checkbox" name="useAHE" id="ahe" value="true"><br>
-        <!-- 新增抖色演算法選項 -->
+        <input type="checkbox" name="useAHE" id="ahe" value="true">
+        
         <label for="dither">Dithering Algorithm:</label>
         <select name="dither" id="dither">
-            <option value="jarvisJudiceNinke" selected>Jarvis–Judice–Ninke</option>
-            <option value="floydSteinberg">Floyd–Steinberg</option>
-            <option value="floydSteinbergNoise">Floyd–Steinberg-Noise</option>
-        </select><br>
+          <option value="jarvisJudiceNinke" selected>Jarvis–Judice–Ninke</option>
+          <option value="floydSteinberg">Floyd–Steinberg</option>
+          <option value="floydSteinbergNoise">Floyd–Steinberg-Noise</option>
+        </select>
+        
         <div class="button-group">
           <input type="submit" name="action" value="Upload and display">
           <input type="submit" name="action" value="Clear the E-Paper screen">
           <input type="button" id="reset-btn" value="Reset">
         </div>
       </form>
-
-      <!-- Spinner 轉圈動畫，預設隱藏 -->
       <div id="spinner" style="display: none;">
         <div class="loader"></div>
       </div>
@@ -138,11 +209,9 @@ static const char *HTML_PAGE = R"(
     </div>
     <script>
       const form = document.querySelector("form");
-      // 當表單提交時顯示 spinner
       form.addEventListener("submit", function() {
           document.getElementById("spinner").style.display = "block";
       });
-      // 重新載入頁面來完全重置狀態
       document.getElementById("reset-btn").addEventListener("click", function() {
           window.location.href = "/";
       });
@@ -150,6 +219,7 @@ static const char *HTML_PAGE = R"(
   </body>
   </html>
 )";
+
 
 
 // 回傳上傳頁面
