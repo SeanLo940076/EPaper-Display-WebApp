@@ -163,15 +163,19 @@ static const char *HTML_PAGE = R"(
         <label for="file">Choose Image:</label>
         <input type="file" name="file" id="file" accept="image/*">
         
-        <label for="rotation">Rotation: auto or 0/90/180/270</label>
+        <label for="rotation">Rotation: auto or 90/180/270</label>
         <select name="rotation" id="rotation">
           <option value="auto">auto</option>
-          <option value="0">0°</option>
           <option value="90">90°</option>
           <option value="180">180°</option>
           <option value="270">270°</option>
         </select>
         
+        <div class="checkbox-group">
+          <label for="ahe">自適應提高對比 Adaptive Histogram Equalization</label>
+          <input type="checkbox" name="useAHE" id="ahe" value="true">
+        </div>
+
         <label for="saturation">飽和度 Saturation: 0.0~3.0 (default 1.0)</label>
         <input type="text" name="saturation" id="saturation" value="1.0">
         
@@ -180,11 +184,6 @@ static const char *HTML_PAGE = R"(
         
         <label for="brightness">亮度 Brightness: 0.0~3.0 (default 1.0)</label>
         <input type="text" name="brightness" id="brightness" value="1.0">
-        
-        <div class="checkbox-group">
-          <label for="ahe">自適應提高對比 Adaptive Histogram Equalization</label>
-          <input type="checkbox" name="useAHE" id="ahe" value="true">
-        </div>
         
         <label for="dither">影像抖動算法 Dithering Algorithm:</label>
         <select name="dither" id="dither">

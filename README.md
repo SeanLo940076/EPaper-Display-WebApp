@@ -50,7 +50,7 @@ If you encounter any problems or have suggestions regarding usage, design, or co
 
 **Web page configuration**
 <div align="center">
-  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.jpg" width="350" />
+  <img src="https://github.com/SeanLo940076/EPaper-Display-WebApp/blob/main/Demo/configuration3.png" width="350" />
 </div>
 
 ---

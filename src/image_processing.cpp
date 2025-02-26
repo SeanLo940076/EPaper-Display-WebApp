@@ -293,8 +293,9 @@ UBYTE* image_process(const std::string &path,
     auto start_time = std::chrono::high_resolution_clock::now();
 
     std::cout << "[INFO] process_and_display: path=" << path
-              << ", rotation=" << rotationStr
-              << ", useAHE =" << useAHE << ", sat=" << sat << ", con=" << con << ", bri=" << bri << std::endl;
+              << ", rotation=" << rotationStr << ", useAHE =" 
+              << useAHE << ", sat=" << sat << ", con=" << con 
+              << ", bri=" << bri << ", ditherMethod:" << ditherMethod << std::endl;
 
     // (1) 讀取圖片
     cv::Mat inputBGR = cv::imread(path, cv::IMREAD_COLOR);
@@ -302,8 +303,6 @@ UBYTE* image_process(const std::string &path,
         std::cerr << "Cannot open " << path << "\n";
         // return false;
     }
-
-    // cv::imwrite("pro_image_org.jpg", inputBGR);
 
     // (2) 旋轉：自動或依使用者指定旋轉
     if (rotationStr == "auto") {
@@ -323,24 +322,15 @@ UBYTE* image_process(const std::string &path,
             cv::rotate(inputBGR, inputBGR, cv::ROTATE_90_COUNTERCLOCKWISE);
     }
 
-    // cv::imwrite("pro_image_1.jpg", inputBGR);
-
-    // (3.1) 如果啟用 AHE，則執行自適應直方圖均衡化
+    // (3) 如果啟用 AHE，則執行自適應直方圖均衡化
     if(useAHE) {
         AdaptiveHistogramEqualization(inputBGR);
     }
-
-    // cv::imwrite("pro_image_2.jpg", inputBGR);
-
-    // (3) 調整 飽和度 / 亮度 / 對比度
     EnhanceSaturation(inputBGR, sat);
     EnhanceBrightness(inputBGR, bri);
     EnhanceContrast(inputBGR, con);
 
-    // cv::imwrite("pro_image_3.jpg", inputBGR);
-
-
-    // (4) Resize 與 letterbox 到 600×400
+    // (4) 影像 Letterbox 到 EPaper 對應解析度
 #if defined(USE_7_3_EPAPER)
     const int APP_W = 800, APP_H = 480;
 #elif defined(USE_4_0_EPAPER)
@@ -367,19 +357,16 @@ UBYTE* image_process(const std::string &path,
         floydSteinberg6Color(letterbox, outIndex);
     } 
     else if(ditherMethod == "floydSteinbergNoise") {
-        floydSteinbergWithNoise6Color(letterbox, outIndex, 2);  // 例如噪聲幅度設定為 2
+        floydSteinbergWithNoise6Color(letterbox, outIndex, 2);
     } 
     else {  // 預設或 "jarvisJudiceNinke"
         jarvisJudiceNinke6Color(letterbox, outIndex);
     }
 
-    // cv::imwrite("pro_image_4.jpg", outIndex);
-
     // (6) 旋轉到 e-Paper 實際尺寸 (400×600)
     cv::Mat outIndexRot;
 
 #if defined(USE_7_3_EPAPER)
-    // cv::rotate(outIndex, outIndexRot, 180);
     outIndexRot = outIndex;
     const unsigned int epdWidth = 800, epdHeight = 480;
 #elif defined(USE_4_0_EPAPER)
@@ -391,7 +378,6 @@ UBYTE* image_process(const std::string &path,
 #endif
 
     // (7) 建立 e-Paper 緩衝區
-    // const unsigned int epdWidth = 400, epdHeight = 600;
     const unsigned int imgSize = ((epdWidth % 2 == 0) ? (epdWidth / 2) : (epdWidth / 2 + 1)) * epdHeight;
     UBYTE* imgBuf = (UBYTE*)malloc(imgSize);
     if (!imgBuf) {
