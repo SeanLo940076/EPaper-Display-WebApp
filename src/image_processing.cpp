@@ -280,7 +280,8 @@ static void AdaptiveHistogramEqualization(cv::Mat &img) {
     cv::cvtColor(lab, img, cv::COLOR_Lab2BGR);
 }
 
-UBYTE* process_and_display(const std::string &path,
+// 影像處理
+UBYTE* image_process(const std::string &path,
                          const std::string &rotationStr,
                          float sat, float con, float bri, bool useAHE,
                          const std::string &ditherMethod) {
@@ -411,11 +412,6 @@ UBYTE* process_and_display(const std::string &path,
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     std::cout << "[TIME] Processing took " << duration_ms << " ms" << std::endl;
-
-    // (9) 更新 e-Paper 畫面後進入休眠
-    // display_epaper(imgBuf);
-    // free(imgBuf);
-    // return true;
 
     return imgBuf;
 }

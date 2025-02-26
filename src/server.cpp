@@ -296,7 +296,7 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
       if (!uploadedFile.empty()) {
           // 修改 process_and_display 函數，新增 useAHE 參數
           std::cout << "[INFO] Open " << uploadedFile << std::endl;
-          UBYTE* imgBuf = process_and_display(uploadedFile, rotation, sat, con, bri, useAHE, ditherMethod);
+          UBYTE* imgBuf = image_process(uploadedFile, rotation, sat, con, bri, useAHE, ditherMethod);
           if (imgBuf != nullptr) {
             display_epaper(imgBuf);
             free(imgBuf);
