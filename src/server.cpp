@@ -124,8 +124,8 @@ static const char *HTML_PAGE = R"(
             <option value="floydSteinbergNoise">Floyd–Steinberg-Noise</option>
         </select><br>
         <div class="button-group">
-          <input type="submit" name="action" value="上傳並顯示">
-          <input type="submit" name="action" value="清除電子紙畫面">
+          <input type="submit" name="action" value="Upload and display">
+          <input type="submit" name="action" value="Clear the E-Paper screen">
           <input type="button" id="reset-btn" value="Reset">
         </div>
       </form>
