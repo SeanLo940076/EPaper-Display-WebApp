@@ -107,7 +107,7 @@ static const char *HTML_PAGE = R"(
           font-size: 1em;
           margin: 0;
           margin-right: 10px;
-          font-weight: inherit;
+          font-weight: bold;
       }
       .button-group {
           display: flex;
