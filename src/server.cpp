@@ -61,11 +61,11 @@ static const char *HTML_PAGE = R"(
       .button-group {
         display: flex; justify-content: center; gap: 20px; margin-top: 10px;
       }
-      input[type="submit"], input[type="reset"] {
+      input[type="submit"], input[type="button"] {
         background: #007BFF; color: #fff; border: none;
         padding: 10px 20px; border-radius: 4px; cursor: pointer;
       }
-      input[type="submit"]:hover, input[type="reset"]:hover { background: #0056b3; }
+      input[type="submit"]:hover, input[type="button"]:hover { background: #0056b3; }
       .message { color: green; font-weight: bold; margin-bottom: 20px; }
       .param-note { font-size: 0.8em; color: #555; }
       a { text-decoration: none; color: #007BFF; }
@@ -117,7 +117,8 @@ static const char *HTML_PAGE = R"(
         <div class="button-group">
           <input type="submit" name="action" value="上傳並顯示">
           <input type="submit" name="action" value="清除電子紙畫面">
-          <input type="reset" value="Reset">
+          <!-- 改為 button 類型 -->
+          <input type="button" id="reset-btn" value="Reset">
         </div>
       </form>
       <!-- Spinner 轉圈動畫，預設隱藏 -->
@@ -132,10 +133,9 @@ static const char *HTML_PAGE = R"(
       form.addEventListener("submit", function() {
           document.getElementById("spinner").style.display = "block";
       });
-      // 修改 reset 行為：重新載入頁面以達到完全重置效果
-      document.querySelector("input[type='reset']").addEventListener("click", function(e) {
-          e.preventDefault(); // 防止預設 reset 行為
-          window.location.reload();
+      // 重新載入頁面來完全重置狀態
+      document.getElementById("reset-btn").addEventListener("click", function() {
+          window.location.href = "/";
       });
     </script>
   </body>
