@@ -19,15 +19,17 @@
     #include "EPD_4in0_epaper.h"
 #endif
 
+// 取得執行檔所在目錄
 std::string getExecutablePath() {
   char path[PATH_MAX];
   ssize_t count = readlink("/proc/self/exe", path, PATH_MAX);
   if (count != -1) {
-      return std::string(dirname(path)); // 取得執行檔所在目錄
+      return std::string(dirname(path));
   }
   return ".";
 }
 
+// 配合前面獲得的目錄指到圖片上傳位置
 std::string getUploadDir() {
   std::filesystem::path execPath = getExecutablePath();
   std::filesystem::path uploadPath = execPath.parent_path() / "uploads/";
@@ -125,10 +127,15 @@ static const char *HTML_PAGE = R"(
       <div class="message">%s</div>
     </div>
     <script>
-      // 當表單提交時顯示 spinner
       const form = document.querySelector("form");
+      // 當表單提交時顯示 spinner
       form.addEventListener("submit", function() {
           document.getElementById("spinner").style.display = "block";
+      });
+      // 修改 reset 行為：重新載入頁面以達到完全重置效果
+      document.querySelector("input[type='reset']").addEventListener("click", function(e) {
+          e.preventDefault(); // 防止預設 reset 行為
+          window.location.reload();
       });
     </script>
   </body>
