@@ -131,7 +131,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    ```bash
    sudo nano /etc/rc.local
    ```
-   在Insert the line before ```exit``` 0:
+   Insert the line before ```exit``` 0:
    > Note: Please change your username
    ```bash
    #!/bin/bash
@@ -160,21 +160,26 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
       ├── CMakeLists.txt
       ├── Demo
       ├── include
-      │   ├── epaper.h
+      │   ├── EPD_4in0_epaper.h
+      │   ├── EPD_7in3_epaper.h
       │   ├── image_processing.h
       │   ├── server.h
       │   └── utils.h
       ├── lib
       │   ├── Config
       │   ├── e-Paper
+      │   │   ├── EPD_4in0e.c
+      │   │   ├── EPD_4in0e.h
+      │   │   ├── EPD_7in3e.c
+      │   │   └── EPD_7in3e.h
       │   ├── Fonts
       │   ├── GUI
       │   └── mongoose
-      ├── log.txt
       ├── README.md
       ├── README_zh.md
       ├── src
-      │   ├── epaper.cpp
+      │   ├── EPD_4in0_epaper.cpp
+      │   ├── EPD_7in3_epaper.cpp
       │   ├── image_processing.cpp
       │   ├── main.cpp
       │   └── server.cpp
