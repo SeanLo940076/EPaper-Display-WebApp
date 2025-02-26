@@ -22,6 +22,9 @@ extern "C" {
   #include "lib/GUI/GUI_Paint.h"
 }
 
+// 因為 GUI_Paint 中定義的 ROTATE_180 與 cv::ROTATE_180 衝突
+#undef ROTATE_180
+
 // 調整飽和度：將 BGR 轉換到 HSV，調整 S 分量後再轉回 BGR
 static void EnhanceSaturation(cv::Mat &bgr, float sat) {
     if (std::fabs(sat - 1.f) < 1e-6) return;
@@ -309,12 +312,13 @@ UBYTE* image_process(const std::string &path,
             cv::rotate(inputBGR, inputBGR, cv::ROTATE_90_CLOCKWISE);
             std::cout << "[INFO] auto-rot => 90 degree" << std::endl;
         }
-    } else {
+    } 
+    else {
         int angle = std::atoi(rotationStr.c_str());
         if (angle == 90)
             cv::rotate(inputBGR, inputBGR, cv::ROTATE_90_CLOCKWISE);
         else if (angle == 180)
-            cv::rotate(inputBGR, inputBGR, 180);
+            cv::rotate(inputBGR, inputBGR, cv::ROTATE_180);
         else if (angle == 270)
             cv::rotate(inputBGR, inputBGR, cv::ROTATE_90_COUNTERCLOCKWISE);
     }
@@ -397,7 +401,8 @@ UBYTE* image_process(const std::string &path,
     Paint_NewImage(imgBuf, epdWidth, epdHeight, 0, 0x1);
     Paint_SetScale(6); // 6 色模式
     Paint_SelectImage(imgBuf);
-    Paint_SetRotate(ROTATE_180);
+    // Paint_SetRotate(ROTATE_180);
+    Paint_SetRotate(180);
 
     // (8) 將 6 色結果寫入 e-Paper 緩衝區
     for (int r = 0; r < outIndexRot.rows; r++){
