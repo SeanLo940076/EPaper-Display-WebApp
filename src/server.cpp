@@ -88,7 +88,7 @@ static const char *HTML_PAGE = R"(
   <body>
     <div class="container">
       <h1>E-Paper Image Upload</h1>
-      <p>選擇一張照片並設定圖片參數</p>
+      <p>Select a photo and set the image parameters</p>
       <p class="param-note">
         Rotation: auto or 0/90/180/270 <br>
         Saturation: 0.0~3.0 (default 1.0) <br>
@@ -115,8 +115,8 @@ static const char *HTML_PAGE = R"(
         <label for="ahe">自適應直方圖均衡化:</label>
         <input type="checkbox" name="useAHE" id="ahe" value="true"><br>
         <div class="button-group">
-          <input type="submit" name="action" value="上傳並顯示">
-          <input type="submit" name="action" value="清除電子紙畫面">
+          <input type="submit" name="action" value="Upload and display">
+          <input type="submit" name="action" value="Clear the E-Paper screen">
           <!-- 改為 button 類型 -->
           <input type="button" id="reset-btn" value="Reset">
         </div>
@@ -203,11 +203,11 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
   }
 
   std::string msg;
-  if (action == "清除電子紙畫面") {
+  if (action == "Clear the E-Paper screen") {
       clear_epaper();
       msg = "E-Paper display cleared!";
       std::cout << "[INFO] Clear e-paper" << std::endl;
-  } else if (action == "上傳並顯示") {
+  } else if (action == "Upload and display") {
       if (!uploadedFile.empty()) {
           // 修改 process_and_display 函數，新增 useAHE 參數
           std::cout << "[INFO] Open " << uploadedFile << std::endl;
