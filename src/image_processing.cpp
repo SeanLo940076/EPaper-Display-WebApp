@@ -296,7 +296,7 @@ UBYTE* process_and_display(const std::string &path,
     cv::Mat inputBGR = cv::imread(path, cv::IMREAD_COLOR);
     if (inputBGR.empty()){
         std::cerr << "Cannot open " << path << "\n";
-        return false;
+        // return false;
     }
 
     // cv::imwrite("pro_image_org.jpg", inputBGR);
@@ -391,7 +391,7 @@ UBYTE* process_and_display(const std::string &path,
     UBYTE* imgBuf = (UBYTE*)malloc(imgSize);
     if (!imgBuf) {
         std::cerr << "Cannot allocate image buffer!\n";
-        return false;
+        // return false;
     }
     Paint_NewImage(imgBuf, epdWidth, epdHeight, 0, 0x1);
     Paint_SetScale(6); // 6 色模式
