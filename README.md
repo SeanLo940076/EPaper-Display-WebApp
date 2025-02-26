@@ -60,7 +60,8 @@ If you encounter any problems or have suggestions regarding usage, design, or co
 1. **Hardware**  
    - [Raspberry Pi Zero 2](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/)  
    - [Waveshare 1.3inch UPS HAT](https://www.waveshare.com/wiki/UPS_HAT_(C))  
-   - [Waveshare 4inch E-Paper HAT+ (E) Manual](https://www.waveshare.net/wiki/4inch_e-Paper_HAT+_(E)_Manual#Raspberry_Pi)  
+   - [Waveshare 4inch E-Paper HAT+ (E) Manual](https://www.waveshare.net/wiki/4inch_e-Paper_HAT+_(E)_Manual)  
+   - [Waveshare 7.3inch e-Paper HAT (E) Manual](https://www.waveshare.net/wiki/7.3inch_e-Paper_HAT_(E)_Manual)
    - microSD Card
 
 2. **Operating System**  
