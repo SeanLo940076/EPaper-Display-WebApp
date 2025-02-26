@@ -15,7 +15,6 @@ option(USE_4_0_EPAPER "Enable support for 4.0 inch E-Paper" OFF)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O2 -g -ffunction-sections -fdata-sections")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2 -g -ffunction-sections -fdata-sections")
 
-# 定義編譯參數
 # 定義編譯參數：根據選項決定使用哪個電子紙版本
 if(USE_7_3_EPAPER)
     message(STATUS "Building with support for 7.3 inch E-Paper")
