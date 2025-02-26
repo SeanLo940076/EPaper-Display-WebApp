@@ -81,15 +81,6 @@ static const char *HTML_PAGE = R"(
           margin-bottom: 15px;
           font-size: 1.5em;
       }
-      p {
-          margin-bottom: 10px;
-          color: #555;
-          line-height: 1.4;
-      }
-      .param-note {
-          font-size: 0.9em;
-          margin-bottom: 15px;
-      }
       label {
           display: block;
           margin: 10px 0 5px;
@@ -105,6 +96,17 @@ static const char *HTML_PAGE = R"(
           border: 1px solid #ccc;
           border-radius: 4px;
           font-size: 1em;
+      }
+      /* 將 Adaptive Histogram Equalization 與 checkbox 放在同一行 */
+      .checkbox-group {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+      }
+      .checkbox-group label {
+          margin: 0;
+          margin-right: 10px;
+          font-weight: normal;
       }
       .button-group {
           display: flex;
@@ -149,7 +151,6 @@ static const char *HTML_PAGE = R"(
       /* 小螢幕調整 */
       @media (max-width: 480px) {
           h1 { font-size: 1.3em; }
-          .param-note { font-size: 0.8em; }
           .button-group input { font-size: 0.9em; padding: 10px; }
       }
     </style>
@@ -157,18 +158,11 @@ static const char *HTML_PAGE = R"(
   <body>
     <div class="container">
       <h1>E-Paper Image Upload</h1>
-      <p>Select a photo and set the image parameters</p>
-      <p class="param-note">
-        Rotation: auto or 0/90/180/270<br>
-        Saturation: 0.0~3.0 (default 1.0)<br>
-        Contrast: 0.0~3.0 (default 1.0)<br>
-        Brightness: 0.0~3.0 (default 1.0)
-      </p>
       <form method="post" enctype="multipart/form-data" action="/">
         <label for="file">Choose Image:</label>
         <input type="file" name="file" id="file" accept="image/*">
         
-        <label for="rotation">Rotation:</label>
+        <label for="rotation">Rotation: auto or 0/90/180/270</label>
         <select name="rotation" id="rotation">
           <option value="auto">auto</option>
           <option value="0">0°</option>
@@ -177,17 +171,19 @@ static const char *HTML_PAGE = R"(
           <option value="270">270°</option>
         </select>
         
-        <label for="saturation">Saturation:</label>
+        <label for="saturation">Saturation: 0.0~3.0 (default 1.0)</label>
         <input type="text" name="saturation" id="saturation" value="1.0">
         
-        <label for="contrast">Contrast:</label>
+        <label for="contrast">Contrast: 0.0~3.0 (default 1.0)</label>
         <input type="text" name="contrast" id="contrast" value="1.0">
         
-        <label for="brightness">Brightness:</label>
+        <label for="brightness">Brightness: 0.0~3.0 (default 1.0)</label>
         <input type="text" name="brightness" id="brightness" value="1.0">
         
-        <label for="ahe">Adaptive Histogram Equalization:</label>
-        <input type="checkbox" name="useAHE" id="ahe" value="true">
+        <div class="checkbox-group">
+          <label for="ahe">Adaptive Histogram Equalization</label>
+          <input type="checkbox" name="useAHE" id="ahe" value="true">
+        </div>
         
         <label for="dither">Dithering Algorithm:</label>
         <select name="dither" id="dither">
@@ -219,7 +215,6 @@ static const char *HTML_PAGE = R"(
   </body>
   </html>
 )";
-
 
 
 // 回傳上傳頁面
