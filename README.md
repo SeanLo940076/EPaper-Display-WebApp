@@ -135,7 +135,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    ```
    Insert the line before ```exit 0``` :
    > Note: Please change your username
-   
+
    ```bash
    #!/bin/bash
    # rc.local
@@ -204,8 +204,9 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
 
 ### Future Improvements
 
-1. Added 7.3in E-Paper version.
-2. It is expected to add the Pomodoro.
+- [x] Added software support for the 7.3-inch E-Paper hardware version.
+- [x] Added webpage display animation.
+- [ ] Add Pomodoro timer mode feature.
 
 ### License
 
