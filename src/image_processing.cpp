@@ -280,7 +280,7 @@ static void AdaptiveHistogramEqualization(cv::Mat &img) {
     cv::cvtColor(lab, img, cv::COLOR_Lab2BGR);
 }
 
-bool process_and_display(const std::string &path,
+UBYTE* process_and_display(const std::string &path,
                          const std::string &rotationStr,
                          float sat, float con, float bri, bool useAHE,
                          const std::string &ditherMethod) {
@@ -334,6 +334,8 @@ bool process_and_display(const std::string &path,
 
     // cv::imwrite("pro_image_3.jpg", inputBGR);
 
+
+    // (4) Resize 與 letterbox 到 600×400
 #if defined(USE_7_3_EPAPER)
     const int APP_W = 800, APP_H = 480;
 #elif defined(USE_4_0_EPAPER)
@@ -342,8 +344,6 @@ bool process_and_display(const std::string &path,
     const int APP_W = 600, APP_H = 400;
 #endif
 
-    // (4) Resize 與 letterbox 到 600×400
-    // const int APP_W = 600, APP_H = 400;
     int w = inputBGR.cols, h = inputBGR.rows;
     float scale = std::min(APP_W / (float)w, APP_H / (float)h);
     int newW = static_cast<int>(std::round(w * scale));
@@ -413,7 +413,9 @@ bool process_and_display(const std::string &path,
     std::cout << "[TIME] Processing took " << duration_ms << " ms" << std::endl;
 
     // (9) 更新 e-Paper 畫面後進入休眠
-    display_epaper(imgBuf);
-    free(imgBuf);
-    return true;
+    // display_epaper(imgBuf);
+    // free(imgBuf);
+    // return true;
+
+    return imgBuf;
 }

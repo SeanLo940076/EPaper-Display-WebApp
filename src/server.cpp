@@ -296,8 +296,16 @@ static void handle_multipart_upload(struct mg_connection *c, struct mg_http_mess
       if (!uploadedFile.empty()) {
           // 修改 process_and_display 函數，新增 useAHE 參數
           std::cout << "[INFO] Open " << uploadedFile << std::endl;
-          bool ok = process_and_display(uploadedFile, rotation, sat, con, bri, useAHE, ditherMethod);
-          msg = ok ? "圖片已上傳並顯示到 e-paper!" : "圖片處理失敗!";
+          UBYTE* imgBuf = process_and_display(uploadedFile, rotation, sat, con, bri, useAHE, ditherMethod);
+          if (imgBuf != nullptr) {
+            display_epaper(imgBuf);
+            free(imgBuf);
+            msg = "Image uploaded and displayed on e-Paper!";
+          } 
+          else {
+            msg = "Image processing failed!";
+          
+          }
       } 
       else {
           msg = "未找到圖片或圖片名稱太長";
