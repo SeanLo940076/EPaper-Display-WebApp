@@ -120,7 +120,7 @@ Below is an example using **Raspberry Pi Lite OS**, showing basic installation s
    cd EPaper-Display-WebApp
    mkdir build
    cd build
-   cmake -DUSE_7_3_EPAPER=ON ..
+   cmake -DUSE_7_3_EPAPER=ON .. or cmake -DUSE_4_0_EPAPER=ON ..
    make
    ./ePaper_web
    ```
