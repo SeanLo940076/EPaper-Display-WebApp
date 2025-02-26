@@ -358,9 +358,15 @@ bool process_and_display(const std::string &path,
 
     // (5) 誤差擴散轉 6 色
     cv::Mat outIndex;
-    // floydSteinberg6Color(letterbox, outIndex);
-    jarvisJudiceNinke6Color(letterbox, outIndex);
-    // floydSteinbergWithNoise6Color(letterbox, outIndex, 2);
+    if(ditherMethod == "floydSteinberg") {
+        floydSteinberg6Color(letterbox, outIndex);
+    } 
+    else if(ditherMethod == "floydSteinbergNoise") {
+        floydSteinbergWithNoise6Color(letterbox, outIndex, 2);  // 例如噪聲幅度設定為 2
+    } 
+    else {  // 預設或 "jarvisJudiceNinke"
+        jarvisJudiceNinke6Color(letterbox, outIndex);
+    }
 
     // cv::imwrite("pro_image_4.jpg", outIndex);
 
