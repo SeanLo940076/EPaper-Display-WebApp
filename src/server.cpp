@@ -67,12 +67,26 @@ static const char *HTML_PAGE = R"(
       .message { color: green; font-weight: bold; margin-bottom: 20px; }
       .param-note { font-size: 0.8em; color: #555; }
       a { text-decoration: none; color: #007BFF; }
+      /* Spinner 的 CSS */
+      .loader {
+          border: 8px solid #f3f3f3;
+          border-top: 8px solid #007BFF;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          animation: spin 1s linear infinite;
+          margin: 20px auto;
+      }
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>E-Paper Image Upload</h1>
-      <p>選擇一張照片並且設定圖片參數</p>
+      <p>選擇一張照片並設定圖片參數</p>
       <p class="param-note">
         Rotation: auto or 0/90/180/270 <br>
         Saturation: 0.0~3.0 (default 1.0) <br>
@@ -101,15 +115,26 @@ static const char *HTML_PAGE = R"(
         <div class="button-group">
           <input type="submit" name="action" value="上傳並顯示">
           <input type="submit" name="action" value="清除電子紙畫面">
-          <!-- 新增 Reset 按鈕，點擊後會重置表單欄位 -->
           <input type="reset" value="Reset">
         </div>
       </form>
+      <!-- Spinner 轉圈動畫，預設隱藏 -->
+      <div id="spinner" style="display: none;">
+        <div class="loader"></div>
+      </div>
       <div class="message">%s</div>
     </div>
+    <script>
+      // 當表單提交時顯示 spinner
+      const form = document.querySelector("form");
+      form.addEventListener("submit", function() {
+          document.getElementById("spinner").style.display = "block";
+      });
+    </script>
   </body>
   </html>
 )";
+
 
 // 回傳上傳頁面
 static void send_upload_page(struct mg_connection *c, const std::string &msg) {
